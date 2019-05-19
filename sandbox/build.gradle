@@ -1,4 +1,4 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'stqa.pft.sandbox.First'
+mainClassName = 'stqa.pft.sandbox.Main'
