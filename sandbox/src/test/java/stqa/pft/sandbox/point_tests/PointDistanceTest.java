@@ -19,6 +19,6 @@ public class PointDistanceTest {
 
     @Test(description = "tests for points distance.", dataProvider = "testingData")
     public void checkDistanceBetweenToPoints(Point p1, Point p2, double distance){
-        Assert.assertEquals(UtilCalculations.distance(p1, p2), distance, "Distance is incorrect.");
+        Assert.assertEquals(p1.distance(p2), distance, "Distance is incorrect.");
     }
 }
