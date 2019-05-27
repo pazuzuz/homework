@@ -1,13 +1,13 @@
-package stqa.pft.addressbook;
+package stqa.pft.addressbook.model;
 
-public class AddNewUserData {
+public class NewUserData {
     private final String firstName;
     private final String lastName;
     private final String address;
     private final String mobile;
     private final String email;
 
-    public AddNewUserData(String firstName, String lastName, String address, String mobile, String email) {
+    public NewUserData(String firstName, String lastName, String address, String mobile, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
