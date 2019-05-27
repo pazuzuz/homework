@@ -25,4 +25,28 @@ public class UserHelper extends HelperBase{
     public void submitNewUserForm() {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
+
+    public void initModifyUser() {
+        click(By.xpath("//img[@alt='EDIT']"));
+    }
+
+    public void updateUserForm(NewUserData newUserData) {
+        type(By.name("firstname"), newUserData.getFirstName());
+        type(By.name("lastname"), newUserData.getLastName());
+        type(By.name("address"), newUserData.getAddress());
+        type(By.name("mobile"), newUserData.getMobile());
+        type(By.name("email"), newUserData.getEmail());
+    }
+
+    public void submitUpdateUserForm() {
+        click(By.xpath("//input[@name='update']"));
+    }
+
+    public void selectUser() {
+        click(By.name("selected[]"));
+    }
+
+    public void deleteSelectedUsers() {
+        click(By.xpath("//input[@value='DELETE']"));
+    }
 }

@@ -13,7 +13,6 @@ public class ApplicationManager {
     private SessionHelper sessionHelper;
     private UserHelper userHelper;
 
-
     public void init() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();

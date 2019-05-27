@@ -22,7 +22,7 @@ public class HelperBase {
         driver.findElement(locator).sendKeys(text);
     }
 
-    private boolean isElementPresent(By by) {
+    public boolean isElementPresent(By by) {
         try {
             driver.findElement(by);
             return true;
@@ -31,12 +31,16 @@ public class HelperBase {
         }
     }
 
-    private boolean isAlertPresent() {
+    public boolean isAlertPresent() {
         try {
             driver.switchTo().alert();
             return true;
         } catch (NoAlertPresentException e) {
             return false;
         }
+    }
+
+    public void acceptAllert(){
+        driver.switchTo().alert().accept();
     }
 }
