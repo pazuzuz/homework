@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Address Book Run" parallel="tests" thread-count="2">
+    <test name="Group tests">
+        <parameter name="browser" value="chrome" />
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="Blocker"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+        <classes>
+            <class name="stqa.pft.addressbook.tests.GroupCreationTest"/>
+            <class name="stqa.pft.addressbook.tests.GroupModificationTest"/>
+            <class name="stqa.pft.addressbook.tests.GroupDeletionTest"/>
+        </classes>
+    </test>
+
+    <test name="User tests">
+        <parameter name="browser" value="firefox" />
+        <!--        <groups>-->
+        <!--            <run>-->
+        <!--                <include name="Blocker"/>-->
+        <!--            </run>-->
+        <!--        </groups>-->
+        <classes>
+            <class name="stqa.pft.addressbook.tests.UserCreationTest"/>
+            <class name="stqa.pft.addressbook.tests.UserModificationTest"/>
+            <class name="stqa.pft.addressbook.tests.UserDeletionTest"/>
+        </classes>
+    </test>
+</suite>

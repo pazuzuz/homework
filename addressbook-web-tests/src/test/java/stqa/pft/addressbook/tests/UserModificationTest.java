@@ -1,11 +1,13 @@
 package stqa.pft.addressbook.tests;
 
+import entity.User;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.NewUserData;
 
 public class UserModificationTest extends TestBase {
     @Test
     public void testUserModification(){
+        applicationManager.getSessionHelper().loginAs(User.ADMIN);
         applicationManager.getUserHelper().initModifyUser();
         applicationManager.getUserHelper().updateUserForm(
                 new NewUserData(

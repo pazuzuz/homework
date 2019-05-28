@@ -40,7 +40,7 @@ public class HelperBase {
         }
     }
 
-    public void acceptAllert(){
+    public void acceptAlert(){
         driver.switchTo().alert().accept();
     }
 }
