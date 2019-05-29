@@ -8,7 +8,7 @@ public class UserDeletionTest extends TestBase {
         applicationManager.getUserHelper().selectUser();
         applicationManager.getUserHelper().deleteSelectedUsers();
         if (applicationManager.getUserHelper().isAlertPresent()){
-            applicationManager.getUserHelper().acceptAllert();
+            applicationManager.getUserHelper().acceptAlert();
         }
     }
 }
