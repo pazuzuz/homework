@@ -1,28 +1,25 @@
 package stqa.pft.addressbook.application_manager;
 
-import entity.User;
-import org.openqa.selenium.By;
+import model.LoginUser;
 import org.openqa.selenium.WebDriver;
+import page_factory.BasePage;
 import page_factory.PageGenerator;
-import page_objects.LoginPage;
+import page_objects.Login;
 
 public class SessionHelper extends HelperBase{
+    private Login login = new PageGenerator(driver).getInstance(Login.class);
+    private BasePage base = new PageGenerator(driver).getInstance(BasePage.class);
 
     public SessionHelper(WebDriver driver) {
         super(driver);
     }
 
-    public void loginAs(User user) {
-        LoginPage loginPage = new PageGenerator(driver).getInstance(LoginPage.class);
-        loginPage.open();
-        loginPage.login(user);
-//        driver.get("http://localhost/addressbook/");
-//        type(By.name("user"), username);
-//        type(By.name("pass"), password);
-//        click(By.xpath("//input[@value='Login']"));
+    public void loginAs(LoginUser loginUser) {
+        login.open();
+        login.login(loginUser);
     }
 
     public void logout() {
-        click(By.linkText("Logout"));
+        base.logout();
     }
 }

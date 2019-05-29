@@ -1,13 +1,13 @@
-package entity;
+package model;
 
-public enum User {
+public enum LoginUser {
     ADMIN("admin","secret"),
     ;
 
     private String username;
     private String password;
 
-    User(String username, String password) {
+    LoginUser(String username, String password) {
         this.username = username;
         this.password = password;
     }

@@ -1,52 +1,43 @@
 package stqa.pft.addressbook.application_manager;
 
-import org.openqa.selenium.By;
+
+import model.User;
 import org.openqa.selenium.WebDriver;
-import stqa.pft.addressbook.model.NewUserData;
+import page_factory.PageGenerator;
+import page_objects.Users;
 
 public class UserHelper extends HelperBase{
+    private Users user = new PageGenerator(driver).getInstance(Users.class);
 
     public UserHelper(WebDriver driver) {
         super(driver);
     }
 
     public void initAddNewUser() {
-        click(By.xpath("//a[@href='edit.php']"));
+        user.createNew();
     }
 
-    public void fillNewUserForm(NewUserData newUserData) {
-        type(By.name("firstname"), newUserData.getFirstName());
-        type(By.name("lastname"), newUserData.getLastName());
-        type(By.name("address"), newUserData.getAddress());
-        type(By.name("mobile"), newUserData.getMobile());
-        type(By.name("email"), newUserData.getEmail());
+    public void fillUserForm(User userData) {
+        user.fillFormAs(userData);
     }
 
     public void submitNewUserForm() {
-        click(By.xpath("(//input[@name='submit'])[2]"));
+        user.submitForm();
     }
 
     public void initModifyUser() {
-        click(By.xpath("//img[@alt='EDIT']"));
-    }
-
-    public void updateUserForm(NewUserData newUserData) {
-        type(By.name("firstname"), newUserData.getFirstName());
-        type(By.name("lastname"), newUserData.getLastName());
-        type(By.name("address"), newUserData.getAddress());
-        type(By.name("mobile"), newUserData.getMobile());
-        type(By.name("email"), newUserData.getEmail());
+        user.initUpdate();
     }
 
     public void submitUpdateUserForm() {
-        click(By.xpath("//input[@name='update']"));
+        user.update();
     }
 
     public void selectUser() {
-        click(By.name("selected[]"));
+        user.selectUserFromList();
     }
 
     public void deleteSelectedUsers() {
-        click(By.xpath("//input[@value='DELETE']"));
+        user.pressDeleteButton();
     }
 }

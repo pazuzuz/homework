@@ -1,19 +1,17 @@
 package stqa.pft.addressbook.tests;
 
-import entity.User;
+import model.Group;
+import model.LoginUser;
 import org.testng.annotations.Test;
-import stqa.pft.addressbook.model.GroupData;
-
-import java.util.Map;
 
 public class GroupCreationTest extends TestBase{
 
     @Test
     public void testGroupCreation() {
-        applicationManager.getSessionHelper().loginAs(User.ADMIN);
+        applicationManager.getSessionHelper().loginAs(LoginUser.ADMIN);
         applicationManager.getNavigationHelper().goToGroupPage();
         applicationManager.getGroupHelper().initGroupCreation();
-        applicationManager.getGroupHelper().fillGroupForm(new GroupData("test1", "test2", "test3"));
+        applicationManager.getGroupHelper().fillGroupForm(Group.TEST_1);
         applicationManager.getGroupHelper().submitGroupCreation();
         applicationManager.getGroupHelper().returnToGroupPage();
     }

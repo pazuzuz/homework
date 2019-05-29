@@ -22,9 +22,9 @@
         <!--            </run>-->
         <!--        </groups>-->
         <classes>
-            <class name="stqa.pft.addressbook.tests.UserCreationTest"/>
-            <class name="stqa.pft.addressbook.tests.UserModificationTest"/>
-            <class name="stqa.pft.addressbook.tests.UserDeletionTest"/>
+            <class name="stqa.pft.addressbook.tests.LoginUserCreationTest"/>
+            <class name="stqa.pft.addressbook.tests.LoginUserModificationTest"/>
+            <class name="stqa.pft.addressbook.tests.LoginUserDeletionTest"/>
         </classes>
     </test>
 </suite>

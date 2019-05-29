@@ -1,46 +1,47 @@
 package stqa.pft.addressbook.application_manager;
 
-import org.openqa.selenium.By;
+import model.Group;
 import org.openqa.selenium.WebDriver;
-import stqa.pft.addressbook.model.GroupData;
+import page_factory.PageGenerator;
+import page_objects.Groups;
 
 public class GroupHelper extends HelperBase{
+    private Groups groups  = new PageGenerator(driver).getInstance(Groups.class);
+
 
     public GroupHelper(WebDriver driver) {
         super(driver);
     }
 
     public void initGroupCreation() {
-        click(By.name("new"));
+        groups.pressNewGroup();
     }
 
-    public void fillGroupForm(GroupData groupData) {
-        type(By.name("group_name"), groupData.getName());
-        type(By.name("group_header"), groupData.getName());
-        type(By.name("group_footer"), groupData.getName());
+    public void fillGroupForm(Group group) {
+        groups.fillForm(group);
     }
 
     public void submitGroupCreation() {
-        click(By.name("submit"));
+        groups.pressSubmit();
     }
 
     public void returnToGroupPage() {
-        click(By.linkText("group page"));
+        groups.pressReturnToGroupPage();
     }
 
     public void deleteSelectedGroups() {
-        click(By.name("delete"));
+        groups.submitDeletion();
     }
 
     public void selectGroup() {
-        click(By.name("selected[]"));
+        groups.pickGroup();
     }
 
     public void initGroupModification() {
-        click(By.name("edit"));
+        groups.pressEdit();
     }
 
     public void submitGroupModification() {
-        click(By.name("update"));
+        groups.confirmUpdate();
     }
 }

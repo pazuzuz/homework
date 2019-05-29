@@ -1,16 +1,16 @@
 package page_objects;
 
 import constant.Constant;
-import entity.User;
+import model.LoginUser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import page_factory.BasePage;
 
-public class LoginPage extends BasePage {
+public class Login extends BasePage {
 
-    public LoginPage(WebDriver driver) {
+    public Login(WebDriver driver) {
         super(driver);
     }
 
@@ -23,9 +23,9 @@ public class LoginPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//input[@value='Login']")
     public WebElement loginButton;
 
-    public void login(User user){
-        writeText(this.username, user.getUsername());
-        writeText(this.password, user.getPassword());
+    public void login(LoginUser loginUser){
+        writeText(this.username, loginUser.getUsername());
+        writeText(this.password, loginUser.getPassword());
         click(this.loginButton);
     }
 
