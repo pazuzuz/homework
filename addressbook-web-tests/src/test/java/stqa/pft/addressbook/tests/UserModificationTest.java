@@ -7,13 +7,14 @@ public class UserModificationTest extends TestBase {
     @Test
     public void testUserModification(){
         applicationManager.getUserHelper().initModifyUser();
-        applicationManager.getUserHelper().updateUserForm(
+        applicationManager.getUserHelper().fillUserForm(
                 new NewUserData(
                         "Pazuzu",
                         "Annulyator",
                         "New New York City, 12313, Westend",
                         "80993452312",
-                        "morbo_annulyator@gmail.com"));
+                        "morbo_annulyator@gmail.com",
+                        null), false);
         applicationManager.getUserHelper().submitUpdateUserForm();
         applicationManager.getNavigationHelper().returnToHomePage();
     }
