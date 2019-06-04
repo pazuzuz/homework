@@ -27,7 +27,7 @@ public class UserHelper extends HelperBase{
     }
 
     public void initModifyUser() {
-        click(By.xpath("//img[@alt='EDIT']"));
+        click(By.xpath("//img[@alt='Edit']"));
     }
 
     public void updateUserForm(NewUserData newUserData) {
@@ -47,6 +47,6 @@ public class UserHelper extends HelperBase{
     }
 
     public void deleteSelectedUsers() {
-        click(By.xpath("//input[@value='DELETE']"));
+        click(By.xpath("//input[@value='Delete']"));
     }
 }
