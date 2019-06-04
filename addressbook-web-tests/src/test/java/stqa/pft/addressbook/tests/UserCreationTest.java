@@ -7,8 +7,7 @@ public class UserCreationTest extends TestBase{
 
     @Test
     public void testUserCreation() {
-        applicationManager.getUserHelper().initAddNewUser();
-        applicationManager.getUserHelper().fillUserForm(
+        applicationManager.getUserHelper().createUser(
                 new NewUserData(
                         "Morbo",
                         "Annulyator",
@@ -16,7 +15,6 @@ public class UserCreationTest extends TestBase{
                         "80993452312",
                         "morbo_annulyator@gmail.com",
                         "test1"), true);
-        applicationManager.getUserHelper().submitNewUserForm();
         applicationManager.getNavigationHelper().returnToHomePage();
     }
 }
