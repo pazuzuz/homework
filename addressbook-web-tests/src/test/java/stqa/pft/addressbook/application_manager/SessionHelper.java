@@ -13,10 +13,10 @@ public class SessionHelper extends HelperBase{
         driver.get("http://localhost/addressbook/");
         type(By.name("user"), username);
         type(By.name("pass"), password);
-        click(By.xpath("//input[@value='Login']"));
+        click(By.xpath("//input[@value='LOGIN']"));
     }
 
     public void logout() {
-        click(By.linkText("Logout"));
+        click(By.linkText("LOGOUT"));
     }
 }
