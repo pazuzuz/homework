@@ -9,13 +9,13 @@ public class NavigationHelper extends HelperBase{
         super(driver);
     }
 
-    public void goToGroupPage() {
+    public void groupPage() {
         if (isElementPresent(By.tagName("h1"))
-                && driver.findElement(By.tagName("h1")).getText().equals("GROUPS")
+                && driver.findElement(By.tagName("h1")).getText().equals("groups")
                 && isElementPresent(By.name("new"))){
             return;
         }
-            click(By.linkText("GROUPS"));
+            click(By.linkText("groups"));
     }
 
     public void returnToHomePage() {
@@ -25,7 +25,7 @@ public class NavigationHelper extends HelperBase{
         click(By.linkText("home page"));
     }
 
-    public void goToHomePage(){
+    public void homePage(){
         if(isElementPresent(By.id("maintable"))){
             return;
         }

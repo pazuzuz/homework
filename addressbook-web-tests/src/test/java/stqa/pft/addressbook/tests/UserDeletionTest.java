@@ -4,14 +4,14 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class UserDeletionTest extends TestBase {
     @Test
     public void testUserDeletion(){
-        if (! applicationManager.getUserHelper().isThereAUser()) {
-            applicationManager.getUserHelper().createUser(
+        app.goTo().homePage();
+        if (! app.getUserHelper().isThereAUser()) {
+            app.getUserHelper().createUser(
                     new UserData(
                             "Pazuzu",
                             "Annulyator",
@@ -19,16 +19,16 @@ public class UserDeletionTest extends TestBase {
                             "80993452312",
                             "morbo_annulyator@gmail.com",
                             "test1"), true);
+            app.goTo().returnToHomePage();
         }
-        applicationManager.getNavigationHelper().returnToHomePage();
-        List<UserData> before = applicationManager.getUserHelper().getUserList();
-        applicationManager.getUserHelper().selectUser(before.size() - 1);
-        applicationManager.getUserHelper().deleteSelectedUsers();
-        if (applicationManager.getUserHelper().isAlertPresent()){
-            applicationManager.getUserHelper().acceptAlert();
+        List<UserData> before = app.getUserHelper().getUserList();
+        app.getUserHelper().selectUser(before.size() - 1);
+        app.getUserHelper().deleteSelectedUsers();
+        if (app.getUserHelper().isAlertPresent()){
+            app.getUserHelper().acceptAlert();
         }
-        applicationManager.getNavigationHelper().goToHomePage();
-        List<UserData> after = applicationManager.getUserHelper().getUserList();
+        app.goTo().homePage();
+        List<UserData> after = app.getUserHelper().getUserList();
         Assert.assertEquals(after.size(), before.size() - 1);
 
         before.remove(before.size() - 1);

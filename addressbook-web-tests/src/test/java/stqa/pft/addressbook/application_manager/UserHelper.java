@@ -39,8 +39,7 @@ public class UserHelper extends HelperBase{
     }
 
     public void initModifyUser(int index) {
-        driver.findElements(By.xpath("//img[@alt='EDIT']")).get(index).click();
-//        click(By.xpath("//img[@alt='EDIT']"));
+        driver.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
     }
 
     public void submitUpdateUserForm() {
@@ -52,7 +51,7 @@ public class UserHelper extends HelperBase{
     }
 
     public void deleteSelectedUsers() {
-        click(By.xpath("//input[@value='DELETE']"));
+        click(By.xpath("//input[@value='Delete']"));
     }
 
     public void createUser(UserData userData, boolean isUserCreation) {

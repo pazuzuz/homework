@@ -11,7 +11,8 @@ public class UserCreationTest extends TestBase{
 
     @Test
     public void testUserCreation() {
-        List<UserData> before = applicationManager.getUserHelper().getUserList();
+        app.goTo().homePage();
+        List<UserData> before = app.getUserHelper().getUserList();
         UserData user = new UserData(
                             "Morbo",
                             "Annulyator",
@@ -19,9 +20,9 @@ public class UserCreationTest extends TestBase{
                             "80993452312",
                             "morbo_annulyator@gmail.com",
                             "test1");
-        applicationManager.getUserHelper().createUser(user, true);
-        applicationManager.getNavigationHelper().returnToHomePage();
-        List<UserData> after = applicationManager.getUserHelper().getUserList();
+        app.getUserHelper().createUser(user, true);
+        app.goTo().returnToHomePage();
+        List<UserData> after = app.getUserHelper().getUserList();
         Assert.assertEquals(after.size(), before.size() + 1);
 
         Comparator<? super UserData> byId = Comparator.comparingInt(UserData::getId);

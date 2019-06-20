@@ -10,8 +10,9 @@ import java.util.List;
 public class UserModificationTest extends TestBase {
     @Test
     public void testUserModification(){
-        if (! applicationManager.getUserHelper().isThereAUser()) {
-            applicationManager.getUserHelper().createUser(
+        app.goTo().homePage();
+        if (! app.getUserHelper().isThereAUser()) {
+            app.getUserHelper().createUser(
                  new UserData(
                          "Morbo",
                          "Annulyator",
@@ -19,9 +20,9 @@ public class UserModificationTest extends TestBase {
                          "80993452312",
                          "morbo_annulyator@gmail.com",
                          "test1"), true);
+            app.goTo().returnToHomePage();
         }
-        applicationManager.getNavigationHelper().returnToHomePage();
-        List<UserData> before = applicationManager.getUserHelper().getUserList();
+        List<UserData> before = app.getUserHelper().getUserList();
         int userIndex = before.size() - 1;
         UserData user =
                 new UserData(
@@ -32,11 +33,11 @@ public class UserModificationTest extends TestBase {
                          "80123432332",
                          "pazuzu_annulyator@gmail.com",
                          null);
-        applicationManager.getUserHelper().initModifyUser(userIndex);
-        applicationManager.getUserHelper().fillUserForm(user, false);
-        applicationManager.getUserHelper().submitUpdateUserForm();
-        applicationManager.getNavigationHelper().returnToHomePage();
-        List<UserData> after = applicationManager.getUserHelper().getUserList();
+        app.getUserHelper().initModifyUser(userIndex);
+        app.getUserHelper().fillUserForm(user, false);
+        app.getUserHelper().submitUpdateUserForm();
+        app.goTo().returnToHomePage();
+        List<UserData> after = app.getUserHelper().getUserList();
         Assert.assertEquals(after.size(), before.size());
         before.remove(userIndex);
         before.add(user);
