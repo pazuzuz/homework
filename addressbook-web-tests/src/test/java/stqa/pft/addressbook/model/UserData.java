@@ -4,10 +4,13 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String address;
-    private String mobile;
+    private String workPhone;
+    private String homePhone;
+    private String mobilePhone;
     private String email;
     private String group;
     private int id;
+    private String allPhones;
 
     public String getFirstName() {
         return firstName;
@@ -21,8 +24,16 @@ public class UserData {
         return address;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
     }
 
     public String getEmail() {
@@ -35,6 +46,10 @@ public class UserData {
 
     public int getId() {
         return id;
+    }
+
+    public String getAllPhones() {
+        return allPhones;
     }
 
     public UserData withFirstName(String firstName) {
@@ -52,8 +67,8 @@ public class UserData {
         return this;
     }
 
-    public UserData withMobile(String mobile) {
-        this.mobile = mobile;
+    public UserData withMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
         return this;
     }
 
@@ -69,6 +84,16 @@ public class UserData {
 
     public UserData withId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public UserData withWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+        return this;
+    }
+
+    public UserData withHomePhone(String homePhone) {
+        this.homePhone = homePhone;
         return this;
     }
 
@@ -94,5 +119,10 @@ public class UserData {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    public UserData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
     }
 }

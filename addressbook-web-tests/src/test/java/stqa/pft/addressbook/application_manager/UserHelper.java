@@ -11,6 +11,7 @@ import stqa.pft.addressbook.model.Users;
 import java.util.List;
 
 public class UserHelper extends HelperBase{
+    private Users usersCache = null;
 
     public UserHelper(WebDriver driver) {
         super(driver);
@@ -24,7 +25,7 @@ public class UserHelper extends HelperBase{
         type(By.name("firstname"), userData.getFirstName());
         type(By.name("lastname"), userData.getLastName());
         type(By.name("address"), userData.getAddress());
-        type(By.name("mobile"), userData.getMobile());
+        type(By.name("mobile"), userData.getMobilePhone());
         type(By.name("email"), userData.getEmail());
 
         if (isUserCreation){
@@ -39,7 +40,7 @@ public class UserHelper extends HelperBase{
     }
 
     private void initModifyUserById(int id) {
-        driver.findElement(By.cssSelector("a[href='edit.php?id=" + id +"']")).click();
+        driver.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();
     }
 
     public void submitUpdateUserForm() {
@@ -54,10 +55,16 @@ public class UserHelper extends HelperBase{
         click(By.xpath("//input[@value='Delete']"));
     }
 
+    public int count() {
+        return driver.findElements(By.name("selected[]")).size();
+    }
+
     public void create(UserData userData, boolean isUserCreation) {
         initAddNewUser();
         fillUserForm(userData, isUserCreation);
         submitNewUserForm();
+        usersCache = null;
+        returnToHomePage();
     }
 
     public void delete(UserData user) {
@@ -66,12 +73,15 @@ public class UserHelper extends HelperBase{
         if (isAlertPresent()){
             acceptAlert();
         }
+        usersCache = null;
     }
 
     public void modify(UserData user) {
         initModifyUserById(user.getId());
         fillUserForm(user, false);
         submitUpdateUserForm();
+        usersCache = null;
+        returnToHomePage();
     }
 
     public boolean isThereAUser() {
@@ -79,19 +89,50 @@ public class UserHelper extends HelperBase{
     }
 
     public Users all() {
-        Users users = new Users();
+        if (usersCache != null){
+            return new Users(usersCache);
+        }
+        usersCache = new Users();
         List<WebElement> elements = driver.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element: elements ) {
-            String firstname = element.findElements(By.tagName("td")).get(2).getText();
-            String lastname = element.findElements(By.tagName("td")).get(1).getText();
+            List<WebElement> cells = element.findElements(By.tagName("td"));
+            String lastname = cells.get(1).getText();
+            String firstname = cells.get(2).getText();
+            String allPhones = cells.get(5).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
-            users.add(
+            usersCache.add(
                     new UserData()
                         .withId(id)
                         .withFirstName(firstname)
-                        .withLastName(lastname))
+                        .withLastName(lastname)
+                        .withAllPhones(allPhones))
             ;
         }
-        return users;
+        return new Users(usersCache);
+    }
+
+    public void returnToHomePage() {
+        if (isElementPresent(By.id("maintable"))){
+            return;
+        }
+        click(By.linkText("home page"));
+    }
+
+    public UserData infoFromEditForm(UserData user) {
+        initModifyUserById(user.getId());
+        String firstname = driver.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = driver.findElement(By.name("lastname")).getAttribute("value");
+        String home = driver.findElement(By.name("home")).getAttribute("value");
+        String mobile = driver.findElement(By.name("mobile")).getAttribute("value");
+        String work = driver.findElement(By.name("work")).getAttribute("value");
+        driver.navigate().back();
+        return
+                new UserData()
+                        .withId(user.getId())
+                        .withFirstName(firstname)
+                        .withLastName(lastname)
+                        .withHomePhone(home)
+                        .withWorkPhone(work)
+                        .withMobilePhone(mobile);
     }
 }

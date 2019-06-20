@@ -1,12 +1,12 @@
 package stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserDeletionTest extends TestBase {
     @BeforeMethod
@@ -18,11 +18,10 @@ public class UserDeletionTest extends TestBase {
                             .withFirstName("Morbo")
                             .withLastName("Annulyator")
                             .withAddress("New New York City, 12313, Westend")
-                            .withMobile("80993452312")
+                            .withMobilePhone("80993452312")
                             .withEmail("morbo_annulyator@gmail.com")
                             .withGroup("test1")
                     , true);
-            app.goTo().returnToHomePage();
         }
     }
 
@@ -32,8 +31,8 @@ public class UserDeletionTest extends TestBase {
         UserData deletedUser = before.iterator().next();
         app.user().delete(deletedUser);
         app.goTo().homePage();
+        assertThat(app.user().count(), equalTo(before.size() - 1));
         Users after = app.user().all();
-        Assert.assertEquals(after.size(), before.size() - 1);
-        MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(deletedUser)));
+        assertThat(after, equalTo(before.without(deletedUser)));
     }
 }

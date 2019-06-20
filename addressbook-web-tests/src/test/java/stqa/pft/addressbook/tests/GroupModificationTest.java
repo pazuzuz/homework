@@ -1,6 +1,5 @@
 package stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.GroupData;
@@ -27,9 +26,8 @@ public class GroupModificationTest extends TestBase {
                 .withHeader("test2")
                 .withFooter("test3");
         app.group().modify(group);
+        assertThat(app.group().count(),equalTo(before.size()));
         Groups after = app.group().all();
-        Assert.assertEquals(after.size(), before.size());
-
         assertThat(after, equalTo(before.withModified(group)));
     }
 }

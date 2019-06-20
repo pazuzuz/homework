@@ -1,12 +1,12 @@
 package stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserModificationTest extends TestBase {
     @BeforeMethod
@@ -18,11 +18,10 @@ public class UserModificationTest extends TestBase {
                             .withFirstName("Morbo")
                             .withLastName("Annulyator")
                             .withAddress("New New York City, 12313, Westend")
-                            .withMobile("80993452312")
+                            .withMobilePhone("80993452312")
                             .withEmail("morbo_annulyator@gmail.com")
                             .withGroup("test1")
                     , true);
-            app.goTo().returnToHomePage();
         }
     }
 
@@ -34,12 +33,11 @@ public class UserModificationTest extends TestBase {
                         .withFirstName("Pazuzu")
                         .withLastName("Annulyator")
                         .withAddress("New New York City, 12313, Westend")
-                        .withMobile("80123432332")
+                        .withMobilePhone("80123432332")
                         .withEmail("pazuzu_annulyator@gmail.com");
         app.user().modify(user);
-        app.goTo().returnToHomePage();
+        assertThat(app.user().count(), equalTo(before.size()));
         Users after = app.user().all();
-        Assert.assertEquals(after.size(), before.size());
-        MatcherAssert.assertThat(before, CoreMatchers.equalTo(after.withModified(user)));
+        assertThat(before, equalTo(after.withModified(user)));
     }
 }

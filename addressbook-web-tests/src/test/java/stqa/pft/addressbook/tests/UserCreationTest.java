@@ -1,15 +1,12 @@
 package stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import stqa.pft.addressbook.model.GroupData;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class UserCreationTest extends TestBase{
 
@@ -22,16 +19,16 @@ public class UserCreationTest extends TestBase{
                         .withFirstName("Morbo")
                         .withLastName("Annulyator")
                         .withAddress("New New York City, 12313, Westend")
-                        .withMobile("80993452312")
+                        .withMobilePhone("80993452312")
+                        .withHomePhone("5375837")
+                        .withWorkPhone("545634")
                         .withEmail("morbo_annulyator@gmail.com")
                         .withGroup("test1")
                 ;
         app.user().create(user, true);
-        app.goTo().returnToHomePage();
+        assertThat(app.user().count() ,equalTo(before.size() + 1));
         Users after = app.user().all();
-        Assert.assertEquals(after.size(), before.size() + 1);
-
-        MatcherAssert.assertThat(after, CoreMatchers.equalTo(
+        assertThat(after, equalTo(
                 before.withAdded(user.withId(after.stream().mapToInt(UserData::getId).max().getAsInt()))));
     }
 }
