@@ -1,49 +1,45 @@
 package stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
-
-import java.util.Comparator;
-import java.util.List;
+import stqa.pft.addressbook.model.Users;
 
 public class UserModificationTest extends TestBase {
-    @Test
-    public void testUserModification(){
+    @BeforeMethod
+    public void ensurePreconditions(){
         app.goTo().homePage();
-        if (! app.getUserHelper().isThereAUser()) {
-            app.getUserHelper().createUser(
-                 new UserData(
-                         "Morbo",
-                         "Annulyator",
-                         "New New York City, 12313, Westend",
-                         "80993452312",
-                         "morbo_annulyator@gmail.com",
-                         "test1"), true);
+        if (app.user().all().size() == 0) {
+            app.user().create(
+                    new UserData()
+                            .withFirstName("Morbo")
+                            .withLastName("Annulyator")
+                            .withAddress("New New York City, 12313, Westend")
+                            .withMobile("80993452312")
+                            .withEmail("morbo_annulyator@gmail.com")
+                            .withGroup("test1")
+                    , true);
             app.goTo().returnToHomePage();
         }
-        List<UserData> before = app.getUserHelper().getUserList();
-        int userIndex = before.size() - 1;
+    }
+
+    @Test
+    public void testUserModification(){
+        Users before = app.user().all();
         UserData user =
-                new UserData(
-                          before.get(userIndex).getId(),
-                         "Pazuzu",
-                         "Annulyator",
-                         "New New York City, 12313, Westend",
-                         "80123432332",
-                         "pazuzu_annulyator@gmail.com",
-                         null);
-        app.getUserHelper().initModifyUser(userIndex);
-        app.getUserHelper().fillUserForm(user, false);
-        app.getUserHelper().submitUpdateUserForm();
+                before.iterator().next()
+                        .withFirstName("Pazuzu")
+                        .withLastName("Annulyator")
+                        .withAddress("New New York City, 12313, Westend")
+                        .withMobile("80123432332")
+                        .withEmail("pazuzu_annulyator@gmail.com");
+        app.user().modify(user);
         app.goTo().returnToHomePage();
-        List<UserData> after = app.getUserHelper().getUserList();
+        Users after = app.user().all();
         Assert.assertEquals(after.size(), before.size());
-        before.remove(userIndex);
-        before.add(user);
-        Comparator<? super UserData> byId = Comparator.comparingInt(UserData::getId);
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
+        MatcherAssert.assertThat(before, CoreMatchers.equalTo(after.withModified(user)));
     }
 }

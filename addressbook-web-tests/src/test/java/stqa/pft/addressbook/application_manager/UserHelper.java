@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import stqa.pft.addressbook.model.UserData;
+import stqa.pft.addressbook.model.Users;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserHelper extends HelperBase{
@@ -38,41 +38,59 @@ public class UserHelper extends HelperBase{
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void initModifyUser(int index) {
-        driver.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    private void initModifyUserById(int id) {
+        driver.findElement(By.cssSelector("a[href='edit.php?id=" + id +"']")).click();
     }
 
     public void submitUpdateUserForm() {
         click(By.xpath("//input[@name='update']"));
     }
 
-    public void selectUser(int index) {
-        driver.findElements(By.name("selected[]")).get(index).click();
+    private void selectUserById(int id) {
+        driver.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     public void deleteSelectedUsers() {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void createUser(UserData userData, boolean isUserCreation) {
+    public void create(UserData userData, boolean isUserCreation) {
         initAddNewUser();
         fillUserForm(userData, isUserCreation);
         submitNewUserForm();
+    }
+
+    public void delete(UserData user) {
+        selectUserById(user.getId());
+        deleteSelectedUsers();
+        if (isAlertPresent()){
+            acceptAlert();
+        }
+    }
+
+    public void modify(UserData user) {
+        initModifyUserById(user.getId());
+        fillUserForm(user, false);
+        submitUpdateUserForm();
     }
 
     public boolean isThereAUser() {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public List<UserData> getUserList() {
-        List<UserData> users = new ArrayList<>();
+    public Users all() {
+        Users users = new Users();
         List<WebElement> elements = driver.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element: elements ) {
             String firstname = element.findElements(By.tagName("td")).get(2).getText();
             String lastname = element.findElements(By.tagName("td")).get(1).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
-            UserData user = new UserData(id, firstname, lastname, null, null, null, null);
-            users.add(user);
+            users.add(
+                    new UserData()
+                        .withId(id)
+                        .withFirstName(firstname)
+                        .withLastName(lastname))
+            ;
         }
         return users;
     }

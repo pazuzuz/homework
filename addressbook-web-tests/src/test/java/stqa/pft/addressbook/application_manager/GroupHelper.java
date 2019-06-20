@@ -6,9 +6,7 @@ import org.openqa.selenium.WebElement;
 import stqa.pft.addressbook.model.GroupData;
 import stqa.pft.addressbook.model.Groups;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GroupHelper extends HelperBase{
 

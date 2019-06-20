@@ -1,37 +1,39 @@
 package stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
-
-import java.util.List;
+import stqa.pft.addressbook.model.Users;
 
 public class UserDeletionTest extends TestBase {
-    @Test
-    public void testUserDeletion(){
+    @BeforeMethod
+    public void ensurePreconditions(){
         app.goTo().homePage();
-        if (! app.getUserHelper().isThereAUser()) {
-            app.getUserHelper().createUser(
-                    new UserData(
-                            "Pazuzu",
-                            "Annulyator",
-                            "New New York City, 12313, Westend",
-                            "80993452312",
-                            "morbo_annulyator@gmail.com",
-                            "test1"), true);
+        if (app.user().all().size() == 0) {
+            app.user().create(
+                    new UserData()
+                            .withFirstName("Morbo")
+                            .withLastName("Annulyator")
+                            .withAddress("New New York City, 12313, Westend")
+                            .withMobile("80993452312")
+                            .withEmail("morbo_annulyator@gmail.com")
+                            .withGroup("test1")
+                    , true);
             app.goTo().returnToHomePage();
         }
-        List<UserData> before = app.getUserHelper().getUserList();
-        app.getUserHelper().selectUser(before.size() - 1);
-        app.getUserHelper().deleteSelectedUsers();
-        if (app.getUserHelper().isAlertPresent()){
-            app.getUserHelper().acceptAlert();
-        }
-        app.goTo().homePage();
-        List<UserData> after = app.getUserHelper().getUserList();
-        Assert.assertEquals(after.size(), before.size() - 1);
+    }
 
-        before.remove(before.size() - 1);
-        Assert.assertEquals(before, after);
+    @Test
+    public void testUserDeletion(){
+        Users before = app.user().all();
+        UserData deletedUser = before.iterator().next();
+        app.user().delete(deletedUser);
+        app.goTo().homePage();
+        Users after = app.user().all();
+        Assert.assertEquals(after.size(), before.size() - 1);
+        MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(deletedUser)));
     }
 }

@@ -1,54 +1,32 @@
 package stqa.pft.addressbook.model;
 
-import java.util.Objects;
-
 public class UserData {
-    private final String firstName;
-    private final String lastName;
-    private final String address;
-    private final String mobile;
-    private final String email;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String mobile;
+    private String email;
     private String group;
     private int id;
 
-    public UserData(int id, String firstName, String lastName, String address, String mobile, String email, String group) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.mobile = mobile;
-        this.email = email;
-        this.group = group;
-        this.id = id;
-    }
-
-    public UserData(String firstName, String lastName, String address, String mobile, String email, String group) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.mobile = mobile;
-        this.email = email;
-        this.group = group;
-        this.id = 0;
-    }
-
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public String getAddress() {
-        return this.address;
+        return address;
     }
 
     public String getMobile() {
-        return this.mobile;
+        return mobile;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public String getGroup() {
@@ -59,8 +37,39 @@ public class UserData {
         return id;
     }
 
-    public void setId(int id) {
+    public UserData withFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public UserData withLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public UserData withAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public UserData withMobile(String mobile) {
+        this.mobile = mobile;
+        return this;
+    }
+
+    public UserData withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public UserData withGroup(String group) {
+        this.group = group;
+        return this;
+    }
+
+    public UserData withId(int id) {
         this.id = id;
+        return this;
     }
 
     @Override
@@ -79,14 +88,11 @@ public class UserData {
 
         UserData userData = (UserData) o;
 
-        if (!Objects.equals(firstName, userData.firstName)) return false;
-        return Objects.equals(lastName, userData.lastName);
+        return id == userData.id;
     }
 
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        return result;
+        return id;
     }
 }
