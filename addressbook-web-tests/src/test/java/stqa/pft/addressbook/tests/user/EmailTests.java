@@ -22,7 +22,7 @@ public class EmailTests extends TestBase {
                             .withLastName("Annulyator")
                             .withAddress("New New York City, 12313, Westend")
                             .withFirstEmail("    morbo_annulyator@gmail.com")
-                            .withThirdEmail("morbo_annulyator@gmail.com")
+                            .withThirdEmail("morbo_annulyator@gmail.com    ")
                             .withGroup("test1")
                     , true);
         }
@@ -45,8 +45,8 @@ public class EmailTests extends TestBase {
     }
 
 
-    public static String cleaned(String phone){
-        return phone
-                .replaceAll("\\s", "");
+    public static String cleaned(String email){
+        return email
+                .replaceAll("\\s\\s+", "");
     }
 }

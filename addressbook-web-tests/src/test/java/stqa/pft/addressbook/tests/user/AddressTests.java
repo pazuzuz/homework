@@ -17,7 +17,7 @@ public class AddressTests extends TestBase {
                     new UserData()
                             .withFirstName("Morbo")
                             .withLastName("Annulyator")
-                            .withAddress("New New York City, 12313, Westend")
+                            .withAddress("    New New York City,       12313, Westend")
                             .withGroup("test1")
                     , true);
         }
@@ -29,6 +29,12 @@ public class AddressTests extends TestBase {
         UserData user = app.user().all().iterator().next();
         UserData userInfoFromEditForm = app.user().infoFromEditForm(user);
 
-        assertThat(user.getAddress(), equalTo(userInfoFromEditForm.getAddress()));
+        assertThat(user.getAddress(), equalTo(cleaned(userInfoFromEditForm.getAddress())));
+    }
+
+    public static String cleaned(String address){
+        return address
+                .replaceAll("\\s\\s+", " ")
+                .replaceAll("^\\s*", "");
     }
 }
