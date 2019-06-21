@@ -1,13 +1,14 @@
-package stqa.pft.addressbook.tests;
+package stqa.pft.addressbook.tests.group;
 
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.GroupData;
 import stqa.pft.addressbook.model.Groups;
+import stqa.pft.addressbook.tests.TestBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class GroupCreationTest extends TestBase{
+public class CreationTests extends TestBase {
 
     @Test
     public void testGroupCreation() {

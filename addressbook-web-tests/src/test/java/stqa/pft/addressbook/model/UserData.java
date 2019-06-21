@@ -4,13 +4,16 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String address;
+    private String firstEmail;
+    private String secondEmail;
+    private String thirdEmail;
     private String workPhone;
     private String homePhone;
     private String mobilePhone;
-    private String email;
     private String group;
     private int id;
     private String allPhones;
+    private String allEmails;
 
     public String getFirstName() {
         return firstName;
@@ -36,10 +39,6 @@ public class UserData {
         return mobilePhone;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getGroup() {
         return group;
     }
@@ -50,6 +49,22 @@ public class UserData {
 
     public String getAllPhones() {
         return allPhones;
+    }
+
+    public String getFirstEmail() {
+        return firstEmail;
+    }
+
+    public String getSecondEmail() {
+        return secondEmail;
+    }
+
+    public String getThirdEmail() {
+        return thirdEmail;
+    }
+
+    public String getAllEmails() {
+        return allEmails;
     }
 
     public UserData withFirstName(String firstName) {
@@ -72,11 +87,6 @@ public class UserData {
         return this;
     }
 
-    public UserData withEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
     public UserData withGroup(String group) {
         this.group = group;
         return this;
@@ -94,6 +104,31 @@ public class UserData {
 
     public UserData withHomePhone(String homePhone) {
         this.homePhone = homePhone;
+        return this;
+    }
+
+    public UserData withAllEmails(String allEmails) {
+        this.allEmails = allEmails;
+        return this;
+    }
+
+    public UserData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+    }
+
+    public UserData withFirstEmail(String firstEmail) {
+        this.firstEmail = firstEmail;
+        return this;
+    }
+
+    public UserData withSecondEmail(String secondEmail) {
+        this.secondEmail = secondEmail;
+        return this;
+    }
+
+    public UserData withThirdEmail(String thirdEmail) {
+        this.thirdEmail = thirdEmail;
         return this;
     }
 
@@ -119,10 +154,5 @@ public class UserData {
     @Override
     public int hashCode() {
         return id;
-    }
-
-    public UserData withAllPhones(String allPhones) {
-        this.allPhones = allPhones;
-        return this;
     }
 }

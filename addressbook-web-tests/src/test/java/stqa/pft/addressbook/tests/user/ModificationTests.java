@@ -1,14 +1,15 @@
-package stqa.pft.addressbook.tests;
+package stqa.pft.addressbook.tests.user;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
+import stqa.pft.addressbook.tests.TestBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class UserDeletionTest extends TestBase {
+public class ModificationTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
         app.goTo().homePage();
@@ -19,20 +20,25 @@ public class UserDeletionTest extends TestBase {
                             .withLastName("Annulyator")
                             .withAddress("New New York City, 12313, Westend")
                             .withMobilePhone("80993452312")
-                            .withEmail("morbo_annulyator@gmail.com")
+                            .withFirstEmail("morbo_annulyator@gmail.com")
                             .withGroup("test1")
                     , true);
         }
     }
 
     @Test
-    public void testUserDeletion(){
+    public void testUserModification(){
         Users before = app.user().all();
-        UserData deletedUser = before.iterator().next();
-        app.user().delete(deletedUser);
-        app.goTo().homePage();
-        assertThat(app.user().count(), equalTo(before.size() - 1));
+        UserData user =
+                before.iterator().next()
+                        .withFirstName("Pazuzu")
+                        .withLastName("Annulyator")
+                        .withAddress("New New York City, 12313, Westend")
+                        .withMobilePhone("80123432332")
+                        .withFirstEmail("pazuzu_annulyator@gmail.com");
+        app.user().modify(user);
+        assertThat(app.user().count(), equalTo(before.size()));
         Users after = app.user().all();
-        assertThat(after, equalTo(before.without(deletedUser)));
+        assertThat(before, equalTo(after.withModified(user)));
     }
 }

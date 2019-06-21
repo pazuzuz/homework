@@ -26,7 +26,11 @@ public class UserHelper extends HelperBase{
         type(By.name("lastname"), userData.getLastName());
         type(By.name("address"), userData.getAddress());
         type(By.name("mobile"), userData.getMobilePhone());
-        type(By.name("email"), userData.getEmail());
+        type(By.name("work"), userData.getWorkPhone());
+        type(By.name("home"), userData.getHomePhone());
+        type(By.name("email"), userData.getFirstEmail());
+        type(By.name("email2"), userData.getSecondEmail());
+        type(By.name("email3"), userData.getThirdEmail());
 
         if (isUserCreation){
             new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
@@ -52,7 +56,7 @@ public class UserHelper extends HelperBase{
     }
 
     public void deleteSelectedUsers() {
-        click(By.xpath("//input[@value='Delete']"));
+        click(By.xpath("//input[@value='DELETE']"));
     }
 
     public int count() {
@@ -98,6 +102,8 @@ public class UserHelper extends HelperBase{
             List<WebElement> cells = element.findElements(By.tagName("td"));
             String lastname = cells.get(1).getText();
             String firstname = cells.get(2).getText();
+            String address = cells.get(3).getText();
+            String allEmails = cells.get(4).getText();
             String allPhones = cells.get(5).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
             usersCache.add(
@@ -105,6 +111,8 @@ public class UserHelper extends HelperBase{
                         .withId(id)
                         .withFirstName(firstname)
                         .withLastName(lastname)
+                        .withAddress(address)
+                        .withAllEmails(allEmails)
                         .withAllPhones(allPhones))
             ;
         }
@@ -122,6 +130,10 @@ public class UserHelper extends HelperBase{
         initModifyUserById(user.getId());
         String firstname = driver.findElement(By.name("firstname")).getAttribute("value");
         String lastname = driver.findElement(By.name("lastname")).getAttribute("value");
+        String address = driver.findElement(By.name("address")).getAttribute("value");
+        String firstEmail = driver.findElement(By.name("email")).getAttribute("value");
+        String secondEmail = driver.findElement(By.name("email2")).getAttribute("value");
+        String thirdEmail = driver.findElement(By.name("email3")).getAttribute("value");
         String home = driver.findElement(By.name("home")).getAttribute("value");
         String mobile = driver.findElement(By.name("mobile")).getAttribute("value");
         String work = driver.findElement(By.name("work")).getAttribute("value");
@@ -131,6 +143,10 @@ public class UserHelper extends HelperBase{
                         .withId(user.getId())
                         .withFirstName(firstname)
                         .withLastName(lastname)
+                        .withAddress(address)
+                        .withFirstEmail(firstEmail)
+                        .withSecondEmail(secondEmail)
+                        .withThirdEmail(thirdEmail)
                         .withHomePhone(home)
                         .withWorkPhone(work)
                         .withMobilePhone(mobile);

@@ -1,14 +1,15 @@
-package stqa.pft.addressbook.tests;
+package stqa.pft.addressbook.tests.user;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
+import stqa.pft.addressbook.tests.TestBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class UserModificationTest extends TestBase {
+public class DeletionTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
         app.goTo().homePage();
@@ -19,25 +20,20 @@ public class UserModificationTest extends TestBase {
                             .withLastName("Annulyator")
                             .withAddress("New New York City, 12313, Westend")
                             .withMobilePhone("80993452312")
-                            .withEmail("morbo_annulyator@gmail.com")
+                            .withFirstEmail("morbo_annulyator@gmail.com")
                             .withGroup("test1")
                     , true);
         }
     }
 
     @Test
-    public void testUserModification(){
+    public void testUserDeletion(){
         Users before = app.user().all();
-        UserData user =
-                before.iterator().next()
-                        .withFirstName("Pazuzu")
-                        .withLastName("Annulyator")
-                        .withAddress("New New York City, 12313, Westend")
-                        .withMobilePhone("80123432332")
-                        .withEmail("pazuzu_annulyator@gmail.com");
-        app.user().modify(user);
-        assertThat(app.user().count(), equalTo(before.size()));
+        UserData deletedUser = before.iterator().next();
+        app.user().delete(deletedUser);
+        app.goTo().homePage();
+        assertThat(app.user().count(), equalTo(before.size() - 1));
         Users after = app.user().all();
-        assertThat(before, equalTo(after.withModified(user)));
+        assertThat(after, equalTo(before.without(deletedUser)));
     }
 }

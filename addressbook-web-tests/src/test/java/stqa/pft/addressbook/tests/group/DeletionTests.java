@@ -1,14 +1,15 @@
-package stqa.pft.addressbook.tests;
+package stqa.pft.addressbook.tests.group;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.GroupData;
 import stqa.pft.addressbook.model.Groups;
+import stqa.pft.addressbook.tests.TestBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class GroupDeletionTest extends TestBase{
+public class DeletionTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
         app.goTo().groupPage();

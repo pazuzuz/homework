@@ -1,14 +1,15 @@
-package stqa.pft.addressbook.tests;
+package stqa.pft.addressbook.tests.user;
 
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
+import stqa.pft.addressbook.tests.TestBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.Assert.assertEquals;
 
-public class UserCreationTest extends TestBase{
+public class CreationTests extends TestBase {
 
     @Test
     public void testUserCreation() {
@@ -22,7 +23,7 @@ public class UserCreationTest extends TestBase{
                         .withMobilePhone("80993452312")
                         .withHomePhone("5375837")
                         .withWorkPhone("545634")
-                        .withEmail("morbo_annulyator@gmail.com")
+                        .withFirstEmail("morbo_annulyator@gmail.com")
                         .withGroup("test1")
                 ;
         app.user().create(user, true);
