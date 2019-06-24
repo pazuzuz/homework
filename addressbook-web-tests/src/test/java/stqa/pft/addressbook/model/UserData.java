@@ -1,5 +1,7 @@
 package stqa.pft.addressbook.model;
 
+import java.util.Objects;
+
 public class UserData {
     private String firstName;
     private String lastName;
@@ -148,11 +150,16 @@ public class UserData {
 
         UserData userData = (UserData) o;
 
-        return id == userData.id;
+        if (id != userData.id) return false;
+        if (!Objects.equals(firstName, userData.firstName)) return false;
+        return Objects.equals(lastName, userData.lastName);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        int result = firstName != null ? firstName.hashCode() : 0;
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + id;
+        return result;
     }
 }

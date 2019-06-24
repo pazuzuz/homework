@@ -1,5 +1,6 @@
 package stqa.pft.addressbook.tests.user;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.UserData;
@@ -21,7 +22,7 @@ public class ModificationTests extends TestBase {
                             .withAddress("New New York City, 12313, Westend")
                             .withMobilePhone("80993452312")
                             .withFirstEmail("morbo_annulyator@gmail.com")
-                            .withGroup("test1")
+                            .withGroup("test111")
                     , true);
         }
     }
