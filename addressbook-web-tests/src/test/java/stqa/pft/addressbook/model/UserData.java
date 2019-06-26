@@ -1,19 +1,31 @@
 package stqa.pft.addressbook.model;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.io.File;
 import java.util.Objects;
 
+@XStreamAlias("user")
 public class UserData {
+
+    @Expose
     private String firstName;
+    @Expose
     private String lastName;
     private String address;
+    @Expose
     private String firstEmail;
     private String secondEmail;
     private String thirdEmail;
     private String workPhone;
     private String homePhone;
+    @Expose
     private String mobilePhone;
+    @Expose
     private String group;
+    @XStreamOmitField
     private int id;
     private String allPhones;
     private String allEmails;

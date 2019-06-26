@@ -6,7 +6,7 @@ import com.beust.jcommander.ParameterException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
-import stqa.pft.addressbook.model.GroupData;
+import stqa.pft.addressbook.model.UserData;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,8 +15,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupDataGenerator {
-
+public class UserDataGenerator {
     @Parameter(names = "-c", description = "Group count")
     public int count;
 
@@ -27,7 +26,7 @@ public class GroupDataGenerator {
     public String format;
 
     public static void main(String[] args) throws IOException {
-        GroupDataGenerator generator = new GroupDataGenerator();
+        UserDataGenerator generator = new UserDataGenerator();
         JCommander jCommander = new JCommander(generator);
         try {
             jCommander.parse(args);
@@ -39,16 +38,16 @@ public class GroupDataGenerator {
     }
 
     private void run() throws IOException {
-        List<GroupData> groups = generateGroups(count);
+        List<UserData> users = generateGroups(count);
         switch (format) {
             case "csv":
-                saveAsCSV(groups, new File(filePath));
+                saveAsCSV(users, new File(filePath));
                 break;
             case "xml":
-                saveAsXML(groups, new File(filePath));
+                saveAsXML(users, new File(filePath));
                 break;
             case "json":
-                saveAsJSON(groups, new File(filePath));
+                saveAsJSON(users, new File(filePath));
                 break;
             default:
                 System.out.println("Unrecognized format:  " + format);
@@ -56,39 +55,48 @@ public class GroupDataGenerator {
         }
     }
 
-    private void saveAsJSON(List<GroupData> groups, File file) throws IOException {
+    private void saveAsJSON(List<UserData> users, File file) throws IOException {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-        String json = gson.toJson(groups);
+        String json = gson.toJson(users);
         Writer writer = new FileWriter(file);
         writer.write(json);
         writer.close();
     }
 
-    private void saveAsXML(List<GroupData> groups, File file) throws IOException {
+    private void saveAsXML(List<UserData> users, File file) throws IOException {
         XStream xStream = new XStream();
-        xStream.processAnnotations(GroupData.class);
-        String xml = xStream.toXML(groups);
+        xStream.processAnnotations(UserData.class);
+        String xml = xStream.toXML(users);
         Writer writer = new FileWriter(file);
         writer.write(xml);
         writer.close();
     }
 
-    private void saveAsCSV(List<GroupData> groups, File file) throws IOException {
+    private void saveAsCSV(List<UserData> users, File file) throws IOException {
         Writer writer = new FileWriter(file);
-        for (GroupData group: groups) {
-            writer.write(String.format("%s;%s;%s;\n", group.getName(), group.getHeader(), group.getFooter()));
+        for (UserData user: users) {
+            writer.write(String.format("%s;%s;%s;%s;%s;\n",
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getFirstEmail(),
+                    user.getGroup(),
+                    user.getMobilePhone()
+            ));
         }
         writer.close();
     }
 
-    private List<GroupData> generateGroups(int count){
-        List<GroupData> groups = new ArrayList<>();
+    private List<UserData> generateGroups(int count) {
+        List<UserData> users = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            groups.add(new GroupData()
-                    .withName(String.format("test %s", i))
-                    .withHeader(String.format("header %s", i))
-                    .withFooter(String.format("footer %s", i)));
+            users.add(new UserData()
+                    .withFirstName(String.format("Morbo %s", i))
+                    .withLastName(String.format("Annulyator %s", i))
+                    .withFirstEmail(String.format("morbo@gmail.com%s", i))
+                    .withGroup("test1")
+                    .withMobilePhone("476587346553746"))
+                    ;
         }
-        return groups;
+        return users;
     }
 }
