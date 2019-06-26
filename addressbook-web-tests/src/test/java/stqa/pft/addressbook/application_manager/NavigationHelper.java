@@ -11,11 +11,11 @@ public class NavigationHelper extends HelperBase{
 
     public void groupPage() {
         if (isElementPresent(By.tagName("h1"))
-                && driver.findElement(By.tagName("h1")).getText().equals("GROUPS")
+                && driver.findElement(By.tagName("h1")).getText().equals("groups")
                 && isElementPresent(By.name("new"))){
             return;
         }
-            click(By.linkText("GROUPS"));
+            click(By.linkText("groups"));
     }
 
     public void homePage(){

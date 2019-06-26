@@ -31,6 +31,7 @@ public class UserHelper extends HelperBase{
         type(By.name("email"), userData.getFirstEmail());
         type(By.name("email2"), userData.getSecondEmail());
         type(By.name("email3"), userData.getThirdEmail());
+        attach(By.name("photo"), userData.getPhoto());
 
         if (isUserCreation){
             new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
@@ -56,7 +57,7 @@ public class UserHelper extends HelperBase{
     }
 
     public void deleteSelectedUsers() {
-        click(By.xpath("//input[@value='DELETE']"));
+        click(By.xpath("//input[@value='Delete']"));
     }
 
     public int count() {
