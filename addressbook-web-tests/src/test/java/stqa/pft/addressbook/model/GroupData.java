@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.util.Objects;
+
 @XStreamAlias("group")
 public class GroupData {
 
@@ -69,7 +71,7 @@ public class GroupData {
         GroupData groupData = (GroupData) o;
 
         if (id != groupData.id) return false;
-        return name != null ? name.equals(groupData.name) : groupData.name == null;
+        return Objects.equals(name, groupData.name);
     }
 
     @Override
