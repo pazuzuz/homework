@@ -57,7 +57,7 @@ public class UserHelper extends HelperBase{
     }
 
     public void deleteSelectedUsers() {
-        click(By.xpath("//input[@value='Delete']"));
+        click(By.xpath("//input[@value='DELETE']"));
     }
 
     public int count() {

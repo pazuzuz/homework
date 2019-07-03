@@ -23,6 +23,7 @@ public class ApplicationManager {
     private SessionHelper sessionHelper;
     private UserHelper userHelper;
     private String browser;
+    private DbHelper dbHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -32,6 +33,8 @@ public class ApplicationManager {
         String target = System.getProperty("target", "local");
         properties = new Properties();
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+
+        dbHelper = new DbHelper();
 
         switch (browser) {
             case BrowserType.FIREFOX:
@@ -73,4 +76,6 @@ public class ApplicationManager {
     public UserHelper user() {
         return userHelper;
     }
+
+    public DbHelper db(){return dbHelper;}
 }

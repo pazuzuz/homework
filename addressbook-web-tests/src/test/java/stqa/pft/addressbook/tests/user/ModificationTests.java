@@ -14,15 +14,15 @@ public class ModificationTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
         String groupName = "test1";
-        app.goTo().groupPage();
-        if (app.group().all().size() == 0){
+        if (app.db().groups().size() == 0){
+            app.goTo().groupPage();
             app.group().create(new GroupData().withName(groupName));
         } else {
-            groupName = app.group().all().iterator().next().getName();
+            groupName = app.db().groups().iterator().next().getName();
         }
 
-        app.goTo().homePage();
-        if (app.user().all().size() == 0) {
+        if (app.db().users().size() == 0) {
+            app.goTo().homePage();
             app.user().create(
                     new UserData()
                             .withFirstName("Morbo")
@@ -37,7 +37,7 @@ public class ModificationTests extends TestBase {
 
     @Test
     public void testUserModification(){
-        Users before = app.user().all();
+        Users before = app.db().users();
         UserData user =
                 before.iterator().next()
                         .withFirstName("Pazuzu")
@@ -47,7 +47,7 @@ public class ModificationTests extends TestBase {
                         .withFirstEmail("pazuzu_annulyator@gmail.com");
         app.user().modify(user);
         assertThat(app.user().count(), equalTo(before.size()));
-        Users after = app.user().all();
+        Users after = app.db().users();
         assertThat(after, equalTo(before.withModified(user)));
     }
 }

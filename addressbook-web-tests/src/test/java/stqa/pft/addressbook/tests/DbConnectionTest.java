@@ -11,7 +11,7 @@ public class DbConnectionTest{
     public void testDbConnection(){
         Connection connection;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook?user=root&password=");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook?user=root&password=&serverTimezone=UTC");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select group_id, group_name, group_header, group_footer from group_list");
             Groups groups = new Groups();
