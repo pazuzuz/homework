@@ -15,7 +15,7 @@ public class EmailTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
         app.goTo().homePage();
-        if (app.user().all().size() == 0) {
+        if (app.db().users().size() == 0) {
             app.user().create(
                     new UserData()
                             .withFirstName("Morbo")

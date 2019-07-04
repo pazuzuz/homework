@@ -1,6 +1,7 @@
 package stqa.pft.addressbook.application_manager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -57,7 +58,7 @@ public class UserHelper extends HelperBase{
     }
 
     public void deleteSelectedUsers() {
-        click(By.xpath("//input[@value='DELETE']"));
+        click(By.xpath("//input[@value='Delete']"));
     }
 
     public int count() {

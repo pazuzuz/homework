@@ -16,41 +16,41 @@ public class UserData {
 
     @Expose
     @Column(name = "firstName")
-    private String firstName;
+    private String firstName = "";
 
     @Expose
     @Column(name = "lastName")
-    private String lastName;
+    private String lastName = "";
 
     @Column(name = "address")
     @Type(type = "text")
-    private String address;
+    private String address = "";
 
     @Expose
     @Column(name = "email")
     @Type(type = "text")
-    private String firstEmail;
+    private String firstEmail = "";
 
     @Column(name = "email2")
     @Type(type = "text")
-    private String secondEmail;
+    private String secondEmail = "";
 
     @Column(name = "email3")
     @Type(type = "text")
-    private String thirdEmail;
+    private String thirdEmail = "";
 
     @Column(name = "work")
     @Type(type = "text")
-    private String workPhone;
+    private String workPhone = "";
 
     @Column(name = "home")
     @Type(type = "text")
-    private String homePhone;
+    private String homePhone = "";
 
     @Expose
     @Column(name = "mobile")
     @Type(type = "text")
-    private String mobilePhone;
+    private String mobilePhone = "";
 
     @Expose
     @Transient
@@ -65,10 +65,8 @@ public class UserData {
     private String allPhones;
     @Transient
     private String allEmails;
-
-    @Column(name = "photo")
-    @Type(type = "text")
-    private String photo;
+    @Transient
+    private File photo;
 
     public String getFirstName() {
         return firstName;
@@ -123,11 +121,11 @@ public class UserData {
     }
 
     public File getPhoto() {
-        return new File(photo);
+        return photo;
     }
 
     public UserData withPhoto(File photo) {
-        this.photo = photo.getPath();
+        this.photo = photo;
         return this;
     }
 
@@ -201,6 +199,13 @@ public class UserData {
         return "UserData{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", firstEmail='" + firstEmail + '\'' +
+                ", secondEmail='" + secondEmail + '\'' +
+                ", thirdEmail='" + thirdEmail + '\'' +
+                ", workPhone='" + workPhone + '\'' +
+                ", homePhone='" + homePhone + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
                 ", id=" + id +
                 '}';
     }

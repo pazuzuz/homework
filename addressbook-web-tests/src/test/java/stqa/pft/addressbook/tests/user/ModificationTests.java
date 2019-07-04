@@ -7,6 +7,8 @@ import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
 import stqa.pft.addressbook.tests.TestBase;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
