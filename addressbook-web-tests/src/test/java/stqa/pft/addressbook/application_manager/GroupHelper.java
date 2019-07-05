@@ -11,6 +11,30 @@ import java.util.List;
 public class GroupHelper extends HelperBase{
     private Groups groupCache = null;
 
+    public void create(GroupData groupData) {
+        initGroupCreation();
+        fillGroupForm(groupData);
+        submitGroupCreation();
+        groupCache = null;
+        returnToGroupPage();
+    }
+
+    public void modify(GroupData group) {
+        selectGroupById(group.getId());
+        initGroupModification();
+        fillGroupForm(group);
+        submitGroupModification();
+        groupCache = null;
+        returnToGroupPage();
+    }
+
+    public void delete(GroupData group) {
+        selectGroupById(group.getId());
+        deleteSelectedGroups();
+        groupCache = null;
+        returnToGroupPage();
+    }
+
     public GroupHelper(WebDriver driver) {
         super(driver);
     }
@@ -71,29 +95,5 @@ public class GroupHelper extends HelperBase{
             groupCache.add(new GroupData().withId(id).withName(name));
         }
         return new Groups(groupCache);
-    }
-
-    public void create(GroupData groupData) {
-        initGroupCreation();
-        fillGroupForm(groupData);
-        submitGroupCreation();
-        groupCache = null;
-        returnToGroupPage();
-    }
-
-    public void modify(GroupData group) {
-        selectGroupById(group.getId());
-        initGroupModification();
-        fillGroupForm(group);
-        submitGroupModification();
-        groupCache = null;
-        returnToGroupPage();
-    }
-
-    public void delete(GroupData group) {
-        selectGroupById(group.getId());
-        deleteSelectedGroups();
-        groupCache = null;
-        returnToGroupPage();
     }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import stqa.pft.addressbook.model.Groups;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
 
@@ -12,6 +13,31 @@ import java.util.List;
 
 public class UserHelper extends HelperBase{
     private Users usersCache = null;
+
+    public void create(UserData userData, boolean isUserCreation) {
+        initAddNewUser();
+        fillUserForm(userData, isUserCreation);
+        submitNewUserForm();
+        usersCache = null;
+        returnToHomePage();
+    }
+
+    public void delete(UserData user) {
+        selectUser(user);
+        deleteSelectedUsers();
+        if (isAlertPresent()){
+            acceptAlert();
+        }
+        usersCache = null;
+    }
+
+    public void modify(UserData user) {
+        initModifyUserById(user.getId());
+        fillUserForm(user, false);
+        submitUpdateUserForm();
+        usersCache = null;
+        returnToHomePage();
+    }
 
     public UserHelper(WebDriver driver) {
         super(driver);
@@ -56,8 +82,8 @@ public class UserHelper extends HelperBase{
         click(By.xpath("//input[@name='update']"));
     }
 
-    private void selectUserById(int id) {
-        driver.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    public void selectUser(UserData user) {
+        driver.findElement(By.cssSelector("input[value='" + user.getId() + "']")).click();
     }
 
     public void deleteSelectedUsers() {
@@ -66,31 +92,6 @@ public class UserHelper extends HelperBase{
 
     public int count() {
         return driver.findElements(By.name("selected[]")).size();
-    }
-
-    public void create(UserData userData, boolean isUserCreation) {
-        initAddNewUser();
-        fillUserForm(userData, isUserCreation);
-        submitNewUserForm();
-        usersCache = null;
-        returnToHomePage();
-    }
-
-    public void delete(UserData user) {
-        selectUserById(user.getId());
-        deleteSelectedUsers();
-        if (isAlertPresent()){
-            acceptAlert();
-        }
-        usersCache = null;
-    }
-
-    public void modify(UserData user) {
-        initModifyUserById(user.getId());
-        fillUserForm(user, false);
-        submitUpdateUserForm();
-        usersCache = null;
-        returnToHomePage();
     }
 
     public boolean isThereAUser() {
@@ -155,5 +156,20 @@ public class UserHelper extends HelperBase{
                         .withHomePhone(home)
                         .withWorkPhone(work)
                         .withMobilePhone(mobile);
+    }
+
+    public void selectGroup() {
+        new Select(driver.findElement(By.name("to_group")))
+                .selectByVisibleText("group");
+    }
+
+    public void addToGroup() {
+        driver.findElement(By.name("add")).click();
+    }
+
+    public void selectUserWithoutAllGroups(Users users, Groups groups) {
+
+
+//        driver.findElement(By.cssSelector("input[value='" + user.getId() + "']")).click();
     }
 }
