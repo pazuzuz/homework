@@ -3,11 +3,14 @@ package stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @XStreamAlias("user")
 @Entity
@@ -52,14 +55,16 @@ public class UserData {
     @Type(type = "text")
     private String mobilePhone = "";
 
-    @Expose
-    @Transient
-    private String group;
-
     @XStreamOmitField
     @Id
     @Column(name = "id")
     private int id;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<>();
 
     @Transient
     private String allPhones;
@@ -92,10 +97,6 @@ public class UserData {
         return mobilePhone;
     }
 
-    public String getGroup() {
-        return group;
-    }
-
     public int getId() {
         return id;
     }
@@ -124,6 +125,10 @@ public class UserData {
         return photo;
     }
 
+    public Groups getGroups() {
+        return new Groups(groups);
+    }
+
     public UserData withPhoto(File photo) {
         this.photo = photo;
         return this;
@@ -146,11 +151,6 @@ public class UserData {
 
     public UserData withMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
-        return this;
-    }
-
-    public UserData withGroup(String group) {
-        this.group = group;
         return this;
     }
 
@@ -243,5 +243,10 @@ public class UserData {
         result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
         result = 31 * result + id;
         return result;
+    }
+
+    public UserData inGroups(GroupData group) {
+        groups.add(group);
+        return this;
     }
 }

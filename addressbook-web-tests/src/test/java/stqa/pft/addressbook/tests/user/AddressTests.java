@@ -2,6 +2,8 @@ package stqa.pft.addressbook.tests.user;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import stqa.pft.addressbook.model.GroupData;
+import stqa.pft.addressbook.model.Groups;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.tests.TestBase;
 
@@ -11,14 +13,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class AddressTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
-        app.goTo().homePage();
+        if (app.db().groups().size() == 0){
+            app.goTo().groupPage();
+            app.group().create(new GroupData()
+                                .withName("test 1")
+                                .withHeader("test")
+                                .withFooter("test")
+            );
+        }
+
         if (app.db().users().size() == 0) {
+            app.goTo().homePage();
             app.user().create(
                     new UserData()
                             .withFirstName("Morbo")
                             .withLastName("Annulyator")
                             .withAddress("    New New York City,       12313, Westend")
-                            .withGroup("test1")
+                            .inGroups(app.db().groups().iterator().next())
                     , true);
         }
     }

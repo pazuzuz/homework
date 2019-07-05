@@ -3,8 +3,11 @@ package stqa.pft.addressbook.tests.user;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import stqa.pft.addressbook.model.GroupData;
+import stqa.pft.addressbook.model.Groups;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
 import stqa.pft.addressbook.tests.TestBase;
@@ -22,13 +25,60 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CreationTests extends TestBase {
+    private File photo = new File("src/test/resources/morbo.png");
+
+    @BeforeTest
+    public void ensurePreconditions(){
+        if (app.db().groups().size() == 0){
+            app.goTo().groupPage();
+            app.group().create(new GroupData().withName("test_create"));
+        }
+    }
+
+    @Test(dataProvider = "validUsersFromJSONFile")
+    public void testUserCreation(UserData user) {
+        app.goTo().homePage();
+        Groups groups = app.db().groups();
+        Users before = app.db().users();
+        user.withPhoto(photo).inGroups(groups.iterator().next());
+        app.user().create(user.withPhoto(photo), true);
+        assertThat(app.user().count() ,equalTo(before.size() + 1));
+        Users after = app.db().users();
+
+        assertThat(after, equalTo(
+                before.withAdded(user.withId(after.stream().mapToInt(UserData::getId).max().getAsInt()))));
+        verifyUserListInUI();
+    }
+
+    @Test(enabled = false)
+    public void testCurrentDir(){
+        File currentDir = new File(".");
+        System.out.println(currentDir.getAbsolutePath());
+        System.out.println(photo.getAbsolutePath());
+        System.out.println(photo.exists());
+    }
 
     @DataProvider
     public Iterator<Object[]> validGroups(){
         List<Object[]> list = new ArrayList<>();
-        list.add(new Object[] {new UserData().withFirstName("firstname1").withLastName("lastname1").withMobilePhone("65364587").withGroup("test1")});
-        list.add(new Object[] {new UserData().withFirstName("firstname2").withLastName("lastname2").withMobilePhone("65364587").withGroup("test2")});
-        list.add(new Object[] {new UserData().withFirstName("firstname3").withLastName("lastname3").withMobilePhone("65364587").withGroup("test3")});
+        list.add(new Object[] {new UserData()
+                                    .withFirstName("firstname1")
+                                    .withLastName("lastname1")
+                                    .withMobilePhone("65364587")
+                                    .inGroups(app.db().groups().iterator().next())
+                                    .withPhoto(photo)});
+        list.add(new Object[] {new UserData()
+                                    .withFirstName("firstname2")
+                                    .withLastName("lastname2")
+                                    .withMobilePhone("65364587")
+                                    .inGroups(app.db().groups().iterator().next())
+                                    .withPhoto(photo)});
+        list.add(new Object[] {new UserData()
+                                    .withFirstName("firstname3")
+                                    .withLastName("lastname3")
+                                    .withMobilePhone("65364587")
+                                    .inGroups(app.db().groups().iterator().next())
+                                    .withPhoto(photo)});
         return list.iterator();
     }
 
@@ -43,8 +93,9 @@ public class CreationTests extends TestBase {
                         .withFirstName(split[0])
                         .withLastName(split[1])
                         .withFirstEmail(split[2])
-                        .withGroup(split[3])
-                        .withMobilePhone(split[4])});
+                        .withMobilePhone(split[3])
+                        .inGroups(app.db().groups().iterator().next())
+                        .withPhoto(photo)});
                 line = reader.readLine();
             }
             return list.iterator();
@@ -63,7 +114,9 @@ public class CreationTests extends TestBase {
             XStream xStream = new XStream();
             xStream.processAnnotations(UserData.class);
             List<UserData> groups = (List<UserData>)xStream.fromXML(xml.toString());
-            return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+            return groups.stream()
+                    .map((g) -> new Object[] {g.inGroups(app.db().groups().iterator().next()).withPhoto(photo)})
+                    .collect(Collectors.toList()).iterator();
         }
     }
 
@@ -78,34 +131,9 @@ public class CreationTests extends TestBase {
             }
             Gson gson = new Gson();
             List<UserData> groups = gson.fromJson(json.toString(), new TypeToken<List<UserData>>(){}.getType());  // List<GroupData>.class
-            return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+            return groups.stream()
+                    .map((g) -> new Object[] {g.inGroups(app.db().groups().iterator().next()).withPhoto(photo)})
+                    .collect(Collectors.toList()).iterator();
         }
-    }
-
-    @Test(dataProvider = "validUsersFromJSONFile")
-    public void testUserCreation(UserData user) {
-        app.goTo().homePage();
-        Users before = app.db().users();
-        File photo = new File("src/test/resources/morbo.png");
-        app.user().create(user.withPhoto(photo), true);
-        assertThat(app.user().count() ,equalTo(before.size() + 1));
-        Users after = app.db().users();
-
-        System.out.println(after);
-        System.out.println(before);
-        assertThat(after, equalTo(
-                before.withAdded(user.withId(after.stream().mapToInt(UserData::getId).max().getAsInt()))));
-
-        System.out.println(before);
-        System.out.println(after);
-    }
-
-    @Test(enabled = false)
-    public void testCurrentDir(){
-        File currentDir = new File(".");
-        System.out.println(currentDir.getAbsolutePath());
-        File photo = new File("src/test/resources/morbo.png");
-        System.out.println(photo.getAbsolutePath());
-        System.out.println(photo.exists());
     }
 }

@@ -55,31 +55,30 @@ public class UserDataGenerator {
         }
     }
 
-    private void saveAsJSON(List<UserData> users, File file) throws IOException {
+    private void saveAsJSON(List<UserData> users, File filePath) throws IOException {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
         String json = gson.toJson(users);
-        try (Writer writer = new FileWriter(file)){
+        try (Writer writer = new FileWriter(filePath)){
             writer.write(json);
         }
     }
 
-    private void saveAsXML(List<UserData> users, File file) throws IOException {
+    private void saveAsXML(List<UserData> users, File filePath) throws IOException {
         XStream xStream = new XStream();
         xStream.processAnnotations(UserData.class);
         String xml = xStream.toXML(users);
-        try (Writer writer = new FileWriter(file)){
+        try (Writer writer = new FileWriter(filePath)){
             writer.write(xml);
         }
     }
 
-    private void saveAsCSV(List<UserData> users, File file) throws IOException {
-        try (Writer writer = new FileWriter(file)){
+    private void saveAsCSV(List<UserData> users, File filePath) throws IOException {
+        try (Writer writer = new FileWriter(filePath)){
             for (UserData user: users) {
-                writer.write(String.format("%s;%s;%s;%s;%s;\n",
+                writer.write(String.format("%s;%s;%s;%s;\n",
                         user.getFirstName(),
                         user.getLastName(),
                         user.getFirstEmail(),
-                        user.getGroup(),
                         user.getMobilePhone()
                 ));
             }
@@ -93,7 +92,6 @@ public class UserDataGenerator {
                     .withFirstName(String.format("Morbo %s", i))
                     .withLastName(String.format("Annulyator %s", i))
                     .withFirstEmail(String.format("morbo@gmail.com%s", i))
-                    .withGroup("test1")
                     .withMobilePhone("476587346553746"))
                     ;
         }

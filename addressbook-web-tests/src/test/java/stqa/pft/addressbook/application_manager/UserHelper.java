@@ -1,7 +1,6 @@
 package stqa.pft.addressbook.application_manager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -35,7 +34,11 @@ public class UserHelper extends HelperBase{
         attach(By.name("photo"), userData.getPhoto());
 
         if (isUserCreation){
-            new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
+            if (userData.getGroups().size() > 0){
+                Assert.assertEquals(userData.getGroups().size(), 1);
+                new Select(driver.findElement(By.name("new_group")))
+                        .selectByVisibleText(userData.getGroups().iterator().next().getName());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }

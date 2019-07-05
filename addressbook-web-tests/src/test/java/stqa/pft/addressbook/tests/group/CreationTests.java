@@ -23,6 +23,29 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CreationTests extends TestBase {
 
+    @Test(dataProvider = "validGroupsFromJSONFile")
+    public void testGroupCreation(GroupData group) {
+        app.goTo().groupPage();
+        Groups before = app.db().groups();
+        app.group().create(group);
+        assertThat(app.group().count(), equalTo(before.size() + 1));
+        Groups after = app.db().groups();
+        assertThat(after, equalTo(
+                before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
+        verifyGroupListInUI();
+    }
+
+    @Test(enabled = false)
+    public void testBadGroupCreation() {
+        app.goTo().groupPage();
+        Groups before = app.db().groups();
+        GroupData group = new GroupData().withName("test1'");
+        app.group().create(group);
+        assertThat(app.group().count(), equalTo(before.size()));
+        Groups after = app.db().groups();
+        assertThat(after, equalTo(before));
+    }
+
     @DataProvider
     public Iterator<Object[]> validGroups(){
         List<Object[]> list = new ArrayList<>();
@@ -75,27 +98,5 @@ public class CreationTests extends TestBase {
             List<GroupData> groups = gson.fromJson(json.toString(), new TypeToken<List<GroupData>>(){}.getType());  // List<GroupData>.class
             return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
         }
-    }
-
-    @Test(dataProvider = "validGroups")
-    public void testGroupCreation(GroupData group) {
-        app.goTo().groupPage();
-        Groups before = app.db().groups();
-        app.group().create(group);
-        assertThat(app.group().count(), equalTo(before.size() + 1));
-        Groups after = app.db().groups();
-        assertThat(after, equalTo(
-                before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
-    }
-
-    @Test(enabled = false)
-    public void testBadGroupCreation() {
-        app.goTo().groupPage();
-        Groups before = app.db().groups();
-        GroupData group = new GroupData().withName("test1'");
-        app.group().create(group);
-        assertThat(app.group().count(), equalTo(before.size()));
-        Groups after = app.db().groups();
-        assertThat(after, equalTo(before));
     }
 }

@@ -15,12 +15,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ModificationTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
-        String groupName = "test1";
         if (app.db().groups().size() == 0){
             app.goTo().groupPage();
-            app.group().create(new GroupData().withName(groupName));
-        } else {
-            groupName = app.db().groups().iterator().next().getName();
+            app.group().create(new GroupData().withName("group"));
         }
 
         if (app.db().users().size() == 0) {
@@ -32,13 +29,14 @@ public class ModificationTests extends TestBase {
                             .withAddress("New New York City, 12313, Westend")
                             .withMobilePhone("80993452312")
                             .withFirstEmail("morbo_annulyator@gmail.com")
-                            .withGroup(groupName)
+                            .inGroups(app.db().groups().iterator().next())
                     , true);
         }
     }
 
     @Test
     public void testUserModification(){
+        app.goTo().homePage();
         Users before = app.db().users();
         UserData user =
                 before.iterator().next()
@@ -51,5 +49,6 @@ public class ModificationTests extends TestBase {
         assertThat(app.user().count(), equalTo(before.size()));
         Users after = app.db().users();
         assertThat(after, equalTo(before.withModified(user)));
+        verifyUserListInUI();
     }
 }
