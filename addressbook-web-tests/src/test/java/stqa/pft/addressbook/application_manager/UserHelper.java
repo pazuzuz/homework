@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import stqa.pft.addressbook.model.Groups;
+import stqa.pft.addressbook.model.GroupData;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
 
@@ -13,6 +13,10 @@ import java.util.List;
 
 public class UserHelper extends HelperBase{
     private Users usersCache = null;
+
+    public UserHelper(WebDriver driver) {
+        super(driver);
+    }
 
     public void create(UserData userData, boolean isUserCreation) {
         initAddNewUser();
@@ -37,10 +41,6 @@ public class UserHelper extends HelperBase{
         submitUpdateUserForm();
         usersCache = null;
         returnToHomePage();
-    }
-
-    public UserHelper(WebDriver driver) {
-        super(driver);
     }
 
     public void initAddNewUser() {
@@ -158,18 +158,12 @@ public class UserHelper extends HelperBase{
                         .withMobilePhone(mobile);
     }
 
-    public void selectGroup() {
+    public void selectGroup(GroupData group) {
         new Select(driver.findElement(By.name("to_group")))
-                .selectByVisibleText("group");
+                .selectByVisibleText(group.getName());
     }
 
     public void addToGroup() {
         driver.findElement(By.name("add")).click();
-    }
-
-    public void selectUserWithoutAllGroups(Users users, Groups groups) {
-
-
-//        driver.findElement(By.cssSelector("input[value='" + user.getId() + "']")).click();
     }
 }
