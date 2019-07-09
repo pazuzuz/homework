@@ -46,9 +46,18 @@ public class UserHelper extends HelperBase{
 
     public void addToGroup(UserData user, GroupData addedGroup){
         selectUser(user);
-        selectGroup(addedGroup);
-        addToGroup();
+        selectGroupToAdd(addedGroup);
+        pressAdd();
     }
+
+
+    public void removeFromGroup(UserData user, GroupData removedGroup) {
+        selectGroupToRemove(removedGroup);
+        selectUser(user);
+        pressRemove();
+    }
+
+
 
     public void initAddNewUser() {
         click(By.xpath("//a[@href='edit.php']"));
@@ -165,13 +174,22 @@ public class UserHelper extends HelperBase{
                         .withMobilePhone(mobile);
     }
 
-    public void selectGroup(GroupData group) {
+    public void selectGroupToAdd(GroupData group) {
         new Select(driver.findElement(By.name("to_group")))
                 .selectByVisibleText(group.getName());
     }
 
-    public void addToGroup() {
+    private void selectGroupToRemove(GroupData group) {
+        new Select(driver.findElement(By.name("group")))
+                .selectByVisibleText(group.getName());
+    }
+
+    public void pressAdd() {
         driver.findElement(By.name("add")).click();
+    }
+
+    private void pressRemove() {
+        driver.findElement(By.name("remove")).click();
     }
 
     public void details(UserData user) {
