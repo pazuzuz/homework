@@ -9,6 +9,8 @@
             <class name="stqa.pft.addressbook.tests.user.EmailTests"/>
             <class name="stqa.pft.addressbook.tests.user.AddressTests"/>
             <class name="stqa.pft.addressbook.tests.user.PhoneTests"/>
+            <class name="stqa.pft.addressbook.tests.user.AddUserToGroupTest"/>
+            <class name="stqa.pft.addressbook.tests.user.RemoveUserFromGroupTest"/>
         </classes>
     </test>
 </suite>
