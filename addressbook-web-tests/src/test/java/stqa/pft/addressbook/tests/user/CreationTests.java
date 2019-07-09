@@ -41,7 +41,7 @@ public class CreationTests extends TestBase {
         Groups groups = app.db().groups();
         Users before = app.db().users();
         user.withPhoto(photo).inGroups(groups.iterator().next());
-        app.user().create(user.withPhoto(photo), true);
+        app.user().create(user, true);
         assertThat(app.user().count() ,equalTo(before.size() + 1));
         Users after = app.db().users();
 

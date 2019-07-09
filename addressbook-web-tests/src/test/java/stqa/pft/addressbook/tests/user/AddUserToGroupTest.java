@@ -57,13 +57,17 @@ public class AddUserToGroupTest extends TestBase {
 
     @Test
     public void testAddUserToGroup() {
-        Groups before = user.getGroups();
+        Groups before = app.db().userInGroups(user);
         app.goTo().homePage();
-        app.user().selectUser(user);
-        app.user().selectGroup(notAddedGroups.iterator().next());
-        app.user().addToGroup();
-        Groups after = app.db().users().stream().filter(user -> user.getId() == this.user.getId()).findFirst().get().getGroups();
+        GroupData addedGroup = notAddedGroups.iterator().next();
+        app.user().addToGroup(user, addedGroup);
+        app.goTo().homePage();
+        Groups after = app.db().userInGroups(user);
+
         assertThat(after.size(), equalTo(before.size() + 1));
+        assertThat(after, equalTo(before.withAddedGroup(addedGroup)));
+
+        verifyUserGroupsListInUI(user);
     }
 
 }

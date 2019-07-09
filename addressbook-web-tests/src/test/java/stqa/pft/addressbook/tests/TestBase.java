@@ -73,4 +73,19 @@ public class TestBase {
                             .collect(Collectors.toSet())));
         }
     }
+
+    public void verifyUserGroupsListInUI(UserData user) {
+        if (Boolean.getBoolean("verifyUI")) {
+            Groups dbGroups = app.db().userInGroups(user);
+            app.goTo().homePage();
+            app.user().details(user);
+            Groups uiGroups = app.user().groups();
+            assertThat(uiGroups,
+                    equalTo(dbGroups.stream()
+                            .map((group) -> new GroupData()
+                                    .withId(group.getId())
+                                    .withName(group.getName()))
+                            .collect(Collectors.toSet())));
+        }
+    }
 }

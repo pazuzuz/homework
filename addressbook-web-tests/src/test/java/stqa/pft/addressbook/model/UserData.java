@@ -194,6 +194,11 @@ public class UserData {
         return this;
     }
 
+    public UserData inGroups(GroupData group) {
+        groups.add(group);
+        return this;
+    }
+
     @Override
     public String toString() {
         return "UserData{" +
@@ -243,10 +248,5 @@ public class UserData {
         result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
         result = 31 * result + id;
         return result;
-    }
-
-    public UserData inGroups(GroupData group) {
-        groups.add(group);
-        return this;
     }
 }

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import stqa.pft.addressbook.model.GroupData;
+import stqa.pft.addressbook.model.Groups;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.model.Users;
 
@@ -41,6 +42,12 @@ public class UserHelper extends HelperBase{
         submitUpdateUserForm();
         usersCache = null;
         returnToHomePage();
+    }
+
+    public void addToGroup(UserData user, GroupData addedGroup){
+        selectUser(user);
+        selectGroup(addedGroup);
+        addToGroup();
     }
 
     public void initAddNewUser() {
@@ -165,5 +172,20 @@ public class UserHelper extends HelperBase{
 
     public void addToGroup() {
         driver.findElement(By.name("add")).click();
+    }
+
+    public void details(UserData user) {
+        driver.findElement(By.cssSelector("a[href='view.php?id=" + user.getId() + "']")).click();
+    }
+
+    public Groups groups() {
+        Groups groups = new Groups();
+        List<WebElement> elements = driver.findElements(By.xpath("//*[@id=\"content\"]/i/a"));
+        for (WebElement element : elements) {
+            String name = element.getText();
+            int id = Integer.parseInt(element.getAttribute("href").replaceAll(".*=", ""));
+            groups.add(new GroupData().withId(id).withName(name));
+        }
+        return groups;
     }
 }

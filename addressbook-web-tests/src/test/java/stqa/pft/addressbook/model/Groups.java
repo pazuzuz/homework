@@ -45,4 +45,10 @@ public class Groups extends ForwardingSet<GroupData> {
         groups.add(group);
         return groups;
     }
+
+    public Groups withAddedGroup(GroupData addedGroup) {
+        Groups groups = new Groups(this);
+        groups.add(addedGroup);
+        return groups;
+    }
 }
