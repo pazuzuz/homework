@@ -20,6 +20,7 @@ public class ApplicationManager {
     private Properties properties;
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp;
+    private MailHelper mailHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -79,5 +80,12 @@ public class ApplicationManager {
             driver.manage().window().maximize();
         }
         return driver;
+    }
+
+    public MailHelper mail(){
+        if (mailHelper == null){
+            mailHelper =  new MailHelper(this);
+        }
+        return mailHelper;
     }
 }
