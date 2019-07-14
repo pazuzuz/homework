@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "Morbo 0",
+    "lastName": "Annulyator 0",
+    "firstEmail": "morbo@gmail.com0",
+    "mobilePhone": "476587346553746",
+    "group": "test1"
+  },
+  {
+    "firstName": "Morbo 1",
+    "lastName": "Annulyator 1",
+    "firstEmail": "morbo@gmail.com1",
+    "mobilePhone": "476587346553746",
+    "group": "test1"
+  },
+  {
+    "firstName": "Morbo 2",
+    "lastName": "Annulyator 2",
+    "firstEmail": "morbo@gmail.com2",
+    "mobilePhone": "476587346553746",
+    "group": "test1"
+  }
+]

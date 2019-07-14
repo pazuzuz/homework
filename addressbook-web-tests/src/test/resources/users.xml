@@ -1,0 +1,23 @@
+<list>
+  <user>
+    <firstName>Morbo 0</firstName>
+    <lastName>Annulyator 0</lastName>
+    <firstEmail>morbo@gmail.com0</firstEmail>
+    <mobilePhone>476587346553746</mobilePhone>
+    <group>test1</group>
+  </user>
+  <user>
+    <firstName>Morbo 1</firstName>
+    <lastName>Annulyator 1</lastName>
+    <firstEmail>morbo@gmail.com1</firstEmail>
+    <mobilePhone>476587346553746</mobilePhone>
+    <group>test1</group>
+  </user>
+  <user>
+    <firstName>Morbo 2</firstName>
+    <lastName>Annulyator 2</lastName>
+    <firstEmail>morbo@gmail.com2</firstEmail>
+    <mobilePhone>476587346553746</mobilePhone>
+    <group>test1</group>
+  </user>
+</list>
