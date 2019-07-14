@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MailHelper {
+public class LocalMailHelper {
     private ApplicationManager app;
     private final Wiser wiser;
 
-    public MailHelper(ApplicationManager app){
+    public LocalMailHelper(ApplicationManager app){
         this.app = app;
         wiser = new Wiser();
     }
@@ -23,7 +23,7 @@ public class MailHelper {
         long start = System.currentTimeMillis();
         while (System.currentTimeMillis() < start + timeout){
             if (wiser.getMessages().size() >= count){
-                return wiser.getMessages().stream().map(MailHelper::toModelMail).collect(Collectors.toList());
+                return wiser.getMessages().stream().map(LocalMailHelper::toModelMail).collect(Collectors.toList());
             }
             try {
                 Thread.sleep(1000);

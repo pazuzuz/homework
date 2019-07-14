@@ -20,7 +20,8 @@ public class ApplicationManager {
     private Properties properties;
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp;
-    private MailHelper mailHelper;
+    private LocalMailHelper mailHelper;
+    private RemoteMailHelper remote;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -82,10 +83,17 @@ public class ApplicationManager {
         return driver;
     }
 
-    public MailHelper mail(){
+    public LocalMailHelper mail(){
         if (mailHelper == null){
-            mailHelper =  new MailHelper(this);
+            mailHelper =  new LocalMailHelper(this);
         }
         return mailHelper;
+    }
+
+    public RemoteMailHelper remote(){
+        if (remote == null){
+            remote = new RemoteMailHelper(this);
+        }
+        return remote;
     }
 }
