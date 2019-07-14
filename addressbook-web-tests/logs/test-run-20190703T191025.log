@@ -1,8 +1,0 @@
-2277 [main] DEBUG i.github.bonigarcia.wdm.Preferences - Removing preference chrome75=75.0.3770.8 (expired on 2019-06-27 23:10:24)
-2297 [main] INFO  i.g.bonigarcia.wdm.WebDriverManager - Using chromedriver 75.0.3770.8 (since Google Chrome 75 is installed in your machine)
-2415 [main] DEBUG i.github.bonigarcia.wdm.Preferences - Storing preference chrome75=75.0.3770.8 (valid until 2019-07-04 19:10:27)
-2420 [main] DEBUG i.g.bonigarcia.wdm.WebDriverManager - Driver chromedriver 75.0.3770.8 found in cache
-2423 [main] INFO  i.g.bonigarcia.wdm.WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\pazuz\.m2\repository\webdriver\chromedriver\win32\75.0.3770.8\chromedriver.exe
-28369 [main] INFO  stqa.pft.addressbook.tests.TestBase - Stop test  testUserCreation
-28372 [main] INFO  stqa.pft.addressbook.tests.TestBase - Stop test  testUserCreation
-28374 [main] INFO  stqa.pft.addressbook.tests.TestBase - Stop test  testUserCreation

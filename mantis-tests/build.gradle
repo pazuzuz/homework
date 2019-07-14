@@ -16,17 +16,17 @@ dependencies {
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 }
 
-task testGroups(type: Test) {
+test {
     useTestNG {
         suites 'src/test/resources/testng.xml'
     }
     if (project.hasProperty('browser')) {
         systemProperty 'browser', "${browser}"
     }
-    if (project.hasProperty('target')) {
+    if (project.hasProperty('target')){
         systemProperty 'target', "${target}"
-    }
-    if (project.hasProperty('verifyUI')) {
-        systemProperty 'verifyUI', "${verifyUI}"
+        if (project.hasProperty('verifyUI')){
+            systemProperty 'verifyUI', "${verifyUI}"
+        }
     }
 }
