@@ -43,7 +43,7 @@ public class RegistrationTests extends TestBase {
         long now = System.currentTimeMillis();
         String user = String.format("user%s", now) ;
         String password = "password";
-        String email = String.format("user%s@localhost.localdomain", now);
+        String email = String.format("user%s@localhost", now);
         app.remote().createUser(user, password);
         app.registration().start(user, email);
         List<MailMessage> mailMessages = app.remote().waitForMail(user, password, 60000);
