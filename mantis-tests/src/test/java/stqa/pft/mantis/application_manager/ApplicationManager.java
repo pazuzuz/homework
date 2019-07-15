@@ -22,6 +22,7 @@ public class ApplicationManager {
     private FtpHelper ftp;
     private LocalMailHelper mailHelper;
     private RemoteMailHelper remote;
+    private DbHelper db;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -77,7 +78,7 @@ public class ApplicationManager {
                     driver = new InternetExplorerDriver();
                     break;
             }
-            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         }
         return driver;
@@ -95,5 +96,12 @@ public class ApplicationManager {
             remote = new RemoteMailHelper(this);
         }
         return remote;
+    }
+
+    public DbHelper db(){
+        if (db == null){
+            db = new DbHelper();
+        }
+        return db;
     }
 }
