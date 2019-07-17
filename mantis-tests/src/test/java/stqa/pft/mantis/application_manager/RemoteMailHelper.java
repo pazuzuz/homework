@@ -1,6 +1,7 @@
 package stqa.pft.mantis.application_manager;
 
 import org.apache.commons.net.telnet.TelnetClient;
+import ru.lanwen.verbalregex.VerbalExpression;
 import stqa.pft.mantis.model.MailMessage;
 
 import javax.mail.*;
@@ -154,7 +155,6 @@ public class RemoteMailHelper {
 
     private List<MailMessage> getAllMail(String username, String password) throws MessagingException {
         Folder inbox = openInbox(username, password);
-//        System.out.println(Arrays.toString(inbox.getMessages()));
         List<MailMessage> messages = Arrays.stream(inbox.getMessages()).map(RemoteMailHelper::toModelMail).collect(Collectors.toList());
         closeFolder(inbox);
         return messages;
@@ -167,6 +167,12 @@ public class RemoteMailHelper {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public String findConfirmationLink(List<MailMessage> mailMessages, String email) {
+        MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findAny().get();
+        VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
+        return regex.getText(mailMessage.text);
     }
 
 }

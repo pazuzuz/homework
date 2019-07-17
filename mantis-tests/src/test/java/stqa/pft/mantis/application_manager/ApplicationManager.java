@@ -23,6 +23,7 @@ public class ApplicationManager {
     private LocalMailHelper mailHelper;
     private RemoteMailHelper remote;
     private DbHelper db;
+    private UserHelper user;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -103,5 +104,12 @@ public class ApplicationManager {
             db = new DbHelper();
         }
         return db;
+    }
+
+    public UserHelper user(){
+        if (user == null){
+            user = new UserHelper(this);
+        }
+        return user;
     }
 }

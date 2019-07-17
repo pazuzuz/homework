@@ -25,6 +25,14 @@ public class DbHelper {
     public Set<User> users(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        List<User> users = session.createQuery("from User where enabled = 1").list();
+        System.out.println(users);
+        return new HashSet<>(users);
+    }
+
+    public Set<User> usersWithDefaultPassword(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
         List<User> users = session.createQuery("from User where enabled = 1 and username <> 'administrator' and password = '5f4dcc3b5aa765d61d8327deb882cf99'").list();
         System.out.println(users);
         return new HashSet<>(users);

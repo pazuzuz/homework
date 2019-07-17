@@ -8,7 +8,6 @@ public class RegistrationHelper extends HelperBase{
         super(app);
     }
 
-
     public void start(String username, String email) {
         driver.get(app.getProperty("web.baseUrl") + "/signup_page.php");
         type(By.name("username"), username);
