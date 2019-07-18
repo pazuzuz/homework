@@ -3,6 +3,7 @@ package stqa.pft.mantis.application_manager;
 import org.apache.commons.net.telnet.TelnetClient;
 import ru.lanwen.verbalregex.VerbalExpression;
 import stqa.pft.mantis.model.MailMessage;
+import stqa.pft.mantis.model.User;
 
 import javax.mail.*;
 import java.io.IOException;
@@ -37,10 +38,10 @@ public class RemoteMailHelper {
         return result.trim().equals("User " + name + " exist");
     }
 
-    public void createUser(String name, String password){
+    public void createUser(User user){
         initTelnetSession();
-        write("adduser " + name + " " + password);
-        String result = readUtil("User " + name + " added");
+        write("adduser " + user.getUsername() + " " + user.getPassword());
+        String result = readUtil("User " + user.getUsername() + " added");
         closeTelnetSession();
     }
 
@@ -116,17 +117,17 @@ public class RemoteMailHelper {
         write("quit");
     }
 
-    private void drainEmail(String username, String password) throws MessagingException {
-        Folder inbox = openInbox(username, password);
+    private void drainEmail(User user) throws MessagingException {
+        Folder inbox = openInbox(user);
         for (Message message: inbox.getMessages()) {
             message.setFlag(Flags.Flag.DELETED, true);
         }
         closeFolder(inbox);
     }
 
-    private Folder openInbox(String username, String password) throws MessagingException {
+    private Folder openInbox(User user) throws MessagingException {
         store = mailSession.getStore("pop3");
-        store.connect(mailServer, username, password);
+        store.connect(mailServer, user.getUsername(), user.getPassword());
         Folder folder = store.getDefaultFolder().getFolder("INBOX");
         folder.open(Folder.READ_WRITE);
         return folder;
@@ -137,10 +138,10 @@ public class RemoteMailHelper {
         store.close();
     }
 
-    public List<MailMessage> waitForMail(String username, String password, long timeout) throws MessagingException {
+    public List<MailMessage> waitForMail(User user, long timeout) throws MessagingException {
         long now = System.currentTimeMillis();
         while (System.currentTimeMillis() < now + timeout){
-            List<MailMessage> allMail = getAllMail(username, password);
+            List<MailMessage> allMail = getAllMail(user);
             if (allMail.size() > 0){
                 return allMail;
             }
@@ -153,8 +154,8 @@ public class RemoteMailHelper {
         throw new Error("No mail :(");
     }
 
-    private List<MailMessage> getAllMail(String username, String password) throws MessagingException {
-        Folder inbox = openInbox(username, password);
+    private List<MailMessage> getAllMail(User user) throws MessagingException {
+        Folder inbox = openInbox(user);
         List<MailMessage> messages = Arrays.stream(inbox.getMessages()).map(RemoteMailHelper::toModelMail).collect(Collectors.toList());
         closeFolder(inbox);
         return messages;
@@ -169,8 +170,8 @@ public class RemoteMailHelper {
         }
     }
 
-    public String findConfirmationLink(List<MailMessage> mailMessages, String email) {
-        MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findAny().get();
+    public String findConfirmationLink(List<MailMessage> mailMessages, User user) {
+        MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(user.getEmail())).findAny().get();
         VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
         return regex.getText(mailMessage.text);
     }

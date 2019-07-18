@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 import stqa.pft.mantis.model.MailMessage;
+import stqa.pft.mantis.model.User;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -13,6 +14,11 @@ import java.util.List;
 import static org.testng.Assert.assertTrue;
 
 public class RegistrationTests extends TestBase {
+    private long now = System.currentTimeMillis();
+    private User user = new User()
+            .withUsername(String.format("user%s", now))
+            .withPassword("password")
+            .withEmail(String.format("user%s@localhost", now));
 
 //    @BeforeMethod
     public void startMailServer(){
@@ -26,36 +32,22 @@ public class RegistrationTests extends TestBase {
 
     @Test(enabled = false)
     public void testRegistrationWithLocalMailServer() throws IOException {
-        long now = System.currentTimeMillis();
-        String user = String.format("user%s", now) ;
-        String password = "password";
-        String email = String.format("user%s@localhost.localdomain", now);
-        app.registration().start(user, email);
+        app.registration().start(user);
         List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
-        String confirmationLink = findConfirmationLink(mailMessages, email);
-        app.registration().finish(confirmationLink, password);
+        String confirmationLink = app.remote().findConfirmationLink(mailMessages, user);
+        app.registration().finish(confirmationLink, user);
 
-        assertTrue(app.newSession().login(user, password));
+        assertTrue(app.newSession().login(user));
     }
 
     @Test
     public void testRegistrationWithRemoteMailServer() throws IOException, MessagingException {
-        long now = System.currentTimeMillis();
-        String user = String.format("user%s", now) ;
-        String password = "password";
-        String email = String.format("user%s@localhost", now);
-        app.remote().createUser(user, password);
-        app.registration().start(user, email);
-        List<MailMessage> mailMessages = app.remote().waitForMail(user, password, 60000);
-        String confirmationLink = findConfirmationLink(mailMessages, email);
-        app.registration().finish(confirmationLink, password);
+        app.remote().createUser(user);
+        app.registration().start(user);
+        List<MailMessage> mailMessages = app.remote().waitForMail(user, 60000);
+        String confirmationLink = app.remote().findConfirmationLink(mailMessages, user);
+        app.registration().finish(confirmationLink, user);
 
-        assertTrue(app.newSession().login(user, password));
-    }
-
-    private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
-        MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findAny().get();
-        VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
-        return regex.getText(mailMessage.text);
+        assertTrue(app.newSession().login(user));
     }
 }

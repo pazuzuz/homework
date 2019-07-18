@@ -34,6 +34,21 @@ public class User {
         return password;
     }
 
+    public User withUsername(String username){
+        this.username = username;
+        return this;
+    }
+
+    public User withPassword(String password){
+        this.password = password;
+        return this;
+    }
+
+    public User withEmail(String email){
+        this.email = email;
+        return this;
+    }
+
     public String getEmail() {
         return email;
     }

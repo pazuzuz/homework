@@ -10,6 +10,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import stqa.pft.mantis.model.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,17 +25,17 @@ public class HttpSession {
         httpClient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
     }
 
-    public boolean login(String username, String password) throws IOException {
+    public boolean login(User user) throws IOException {
         HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php");
         List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("password", password));
+        params.add(new BasicNameValuePair("username", user.getUsername()));
+        params.add(new BasicNameValuePair("password", user.getPassword()));
         params.add(new BasicNameValuePair("secure_session", "on"));
         params.add(new BasicNameValuePair("return", "index.php"));
         post.setEntity(new UrlEncodedFormEntity(params));
         CloseableHttpResponse response = httpClient.execute(post);
         String body = getTextFrom(response);
-        return body.contains(String.format("<a href=\"/mantisbt-2.21.1/account_page.php\">%s</a>", username));
+        return body.contains(String.format("<a href=\"/mantisbt-2.21.1/account_page.php\">%s</a>", user.getUsername()));
     }
 
     private String getTextFrom(CloseableHttpResponse response) throws IOException {
@@ -45,10 +46,10 @@ public class HttpSession {
         }
     }
 
-    public boolean isLoggedInAs(String username) throws IOException {
+    public boolean isLoggedInAs(User user) throws IOException {
         HttpGet get = new HttpGet(app.getProperty("web.baseUrl") + "/index.php");
         CloseableHttpResponse response = httpClient.execute(get);
         String body = getTextFrom(response);
-        return body.contains(String.format("<span class=\"label hidden-xs label-default arrowed\">%s</span>", username));
+        return body.contains(String.format("<a href=\"/mantisbt-2.21.1/account_page.php\">%s</a>", user.getUsername()));
     }
 }

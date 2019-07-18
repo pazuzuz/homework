@@ -24,6 +24,8 @@ public class ApplicationManager {
     private RemoteMailHelper remote;
     private DbHelper db;
     private UserHelper user;
+    private AdminHelper admin;
+    private NavigationHelper goTo;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -111,5 +113,19 @@ public class ApplicationManager {
             user = new UserHelper(this);
         }
         return user;
+    }
+
+    public AdminHelper admin(){
+        if (admin == null){
+            admin = new AdminHelper(this);
+        }
+        return admin;
+    }
+
+    public NavigationHelper goTo(){
+        if (goTo == null){
+            goTo = new NavigationHelper(this);
+        }
+        return goTo;
     }
 }

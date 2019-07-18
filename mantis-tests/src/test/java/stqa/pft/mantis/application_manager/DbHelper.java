@@ -26,6 +26,18 @@ public class DbHelper {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         List<User> users = session.createQuery("from User where enabled = 1").list();
+        session.getTransaction().commit();
+        session.close();
+        System.out.println(users);
+        return new HashSet<>(users);
+    }
+
+    public Set<User> notAdminUsers(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<User> users = session.createQuery("from User where enabled = 1 and username <> 'administrator'").list();
+        session.getTransaction().commit();
+        session.close();
         System.out.println(users);
         return new HashSet<>(users);
     }
@@ -34,6 +46,8 @@ public class DbHelper {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         List<User> users = session.createQuery("from User where enabled = 1 and username <> 'administrator' and password = '5f4dcc3b5aa765d61d8327deb882cf99'").list();
+        session.getTransaction().commit();
+        session.close();
         System.out.println(users);
         return new HashSet<>(users);
     }
@@ -41,35 +55,9 @@ public class DbHelper {
     public void restoreDefaultPassword(User user){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.update("User", user);
+        session.saveOrUpdate(user.withPassword("5f4dcc3b5aa765d61d8327deb882cf99"));
+        session.getTransaction().commit();
+        session.close();
         System.out.println(user);
     }
-
-//    public Groups groups(){
-//        Session session = sessionFactory.openSession();
-//        session.beginTransaction();
-//        List<GroupData> result = session.createQuery( "from GroupData" ).list();
-//        session.getTransaction().commit();
-//        session.close();
-//        return new Groups(result);
-//    }
-//
-//    public Users users(){
-//        Session session = sessionFactory.openSession();
-//        session.beginTransaction();
-//        List<UserData> result = session.createQuery( "from UserData where deprecated = '0000-00-00 00:00:00'" ).list();
-//        session.getTransaction().commit();
-//        session.close();
-//    return new Users(result);
-//    }
-//
-//    public Groups userInGroups(UserData user) {
-//        Session session = sessionFactory.openSession();
-//        session.beginTransaction();
-//        List<UserData> result = session.createQuery(
-//                "from UserData where id = " + user.getId() ).list();
-//        session.getTransaction().commit();
-//        session.close();
-//        return result.iterator().next().getGroups();
-//    }
 }
