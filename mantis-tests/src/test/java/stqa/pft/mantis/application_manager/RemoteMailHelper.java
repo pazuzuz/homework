@@ -127,6 +127,8 @@ public class RemoteMailHelper {
 
     private Folder openInbox(User user) throws MessagingException {
         store = mailSession.getStore("pop3");
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
         store.connect(mailServer, user.getUsername(), user.getPassword());
         Folder folder = store.getDefaultFolder().getFolder("INBOX");
         folder.open(Folder.READ_WRITE);

@@ -21,7 +21,9 @@ public class UserHelper extends HelperBase {
         app.registration().finish(confirmationLink, user);
     }
 
-    public void changePassword(User user) {
-
+    public void changePassword(User user, String newPassword) throws MessagingException {
+        List<MailMessage> mailMessages = app.remote().waitForMail(user, 60000);
+        mailMessages.forEach(System.out::println);
+        String confirmationLink = app.remote().findConfirmationLink(mailMessages, user);
     }
 }

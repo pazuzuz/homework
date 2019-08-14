@@ -3,7 +3,6 @@ package stqa.pft.addressbook.tests.user;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import stqa.pft.addressbook.model.GroupData;
-import stqa.pft.addressbook.model.Groups;
 import stqa.pft.addressbook.model.UserData;
 import stqa.pft.addressbook.tests.TestBase;
 

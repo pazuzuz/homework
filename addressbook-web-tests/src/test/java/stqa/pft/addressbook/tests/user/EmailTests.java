@@ -37,7 +37,7 @@ public class EmailTests extends TestBase {
 
     private String mergeEmails(UserData user) {
         return Arrays.asList(user.getFirstEmail(), user.getSecondEmail(), user.getThirdEmail())
-                .stream().filter((s) -> ! s.equals(""))
+                .stream().filter((s) -> !s.equals(""))
                 .map(EmailTests::cleaned)
                 .collect(Collectors.joining("\n"));
     }

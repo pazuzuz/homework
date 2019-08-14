@@ -27,7 +27,7 @@ public class NavigationHelper extends HelperBase{
 //    }
 
     public void loginPage(){
-        if (isElementPresent(By.xpath("//*[@id='login-box']//h4").))
+        if (isElementPresent(By.xpath("//*[@id='login-box']//h4")));
     }
 }
 //*[@id="login-box"]/div/div[1]/h4

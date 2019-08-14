@@ -29,17 +29,17 @@ public class ChangePasswordTests extends TestBase {
         user = app.db().usersWithDefaultPassword().iterator().next().withPassword("password");
 
         HttpSession session = app.newSession();
-        System.out.println(user);
+//        System.out.println(user);
         assertTrue(session.login(user));
         assertTrue(session.isLoggedInAs(user));
     }
 
 
     @Test
-    public void testChangePassword() throws IOException {
+    public void testChangePassword() throws IOException, MessagingException {
+        app.admin().signIn();
         app.admin().resetUserPassword(user);
-        user.withPassword(String.format("password%s", now));
-        app.user().changePassword(user);
+        app.user().changePassword(user, "password1");
         HttpSession session = app.newSession();
         assertTrue(session.login(user));
         assertTrue(session.isLoggedInAs(user));
