@@ -43,5 +43,8 @@ public class ChangePasswordTests extends TestBase {
         HttpSession session = app.newSession();
         assertTrue(session.login(user));
         assertTrue(session.isLoggedInAs(user));
+//        User user = new User().withUsername("user1565795600599").withPassword("password");
+//        app.remote().initTelnetSession();
+//        app.remote().openInbox(user);
     }
 }

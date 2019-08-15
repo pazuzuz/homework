@@ -22,8 +22,16 @@ public class UserHelper extends HelperBase {
     }
 
     public void changePassword(User user, String newPassword) throws MessagingException {
+        app.remote().initTelnetSession();
         List<MailMessage> mailMessages = app.remote().waitForMail(user, 60000);
-        mailMessages.forEach(System.out::println);
         String confirmationLink = app.remote().findConfirmationLink(mailMessages, user);
+        System.out.println(confirmationLink);
+//        setNewPassword(user, confirmationLink, newPassword);
     }
+
+    private void setNewPassword(User user,String confirmationLink, String newPassword) {
+        driver.get(confirmationLink);
+    }
+
+
 }

@@ -40,6 +40,7 @@ public class RemoteMailHelper {
 
     public void createUser(User user){
         initTelnetSession();
+        adminLogin();
         write("adduser " + user.getUsername() + " " + user.getPassword());
         String result = readUtil("User " + user.getUsername() + " added");
         closeTelnetSession();
@@ -52,11 +53,9 @@ public class RemoteMailHelper {
         closeTelnetSession();
     }
 
-    private void initTelnetSession(){
+    public void initTelnetSession(){
         this.mailServer = app.getProperty("mailserver.host");
         int port = Integer.parseInt(app.getProperty("mailserver.port"));
-        String login = app.getProperty(("mailserver.adminlogin"));
-        String password = app.getProperty(("mailserver.adminpassword"));
 
         try {
             this.telnet.connect(this.mailServer, port);
@@ -65,6 +64,11 @@ public class RemoteMailHelper {
         }catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public void adminLogin(){
+        String login = app.getProperty(("mailserver.adminlogin"));
+        String password = app.getProperty(("mailserver.adminpassword"));
 
         //first attempt doesn't work
         readUtil("Login id:");
@@ -125,10 +129,8 @@ public class RemoteMailHelper {
         closeFolder(inbox);
     }
 
-    private Folder openInbox(User user) throws MessagingException {
+    public Folder openInbox(User user) throws MessagingException {
         store = mailSession.getStore("pop3");
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
         store.connect(mailServer, user.getUsername(), user.getPassword());
         Folder folder = store.getDefaultFolder().getFolder("INBOX");
         folder.open(Folder.READ_WRITE);
